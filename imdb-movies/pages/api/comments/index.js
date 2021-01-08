@@ -1,5 +1,5 @@
 import dbConnect from '../../../utils/dbConnect';
-import Comment from '../../../models/Comment';
+import Comment from '../../../models/Comment.js';
 
 dbConnect();
 
@@ -28,5 +28,7 @@ export default async (req, res) => {
         default:
             res.status(400).json({success: false})
             break;
+        case 'DELETE':
+
     }
 }

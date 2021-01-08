@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "jest": "^26.6.3",
     "mongoose": "^5.11.10",
     "next": "10.0.5",
     "react": "17.0.1",
