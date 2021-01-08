@@ -19,7 +19,6 @@ export default async (req, res) => {
         case 'POST':
             try {
                 const comment = await Comment.create(req.body);
-
                 res.status(201).json({success: true, data: comment})
             } catch (e) {
                 res.status(400).json({success: false})
