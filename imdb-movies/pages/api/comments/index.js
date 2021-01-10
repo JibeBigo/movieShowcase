@@ -4,12 +4,12 @@ import Comment from '../../../models/Comment.js';
 dbConnect();
 
 export default async (req, res) => {
-    const { method } = req;
+  const { method } = req;
 
-    switch(method) {
-        case 'GET':
-            try {
-                const comments = await Comment.find({});
+  switch (method) {
+    case "GET":
+      try {
+        const comments = await Comment.find({});
 
                 res.status(200).json({success: true, data: comments})
             } catch (e) {
