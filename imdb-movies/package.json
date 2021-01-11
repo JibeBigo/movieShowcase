@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "jest"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^0.16.0",
@@ -18,7 +19,6 @@
     "node-fetch": "^2.6.1",
     "postcss": "^8.2.4",
     "react": "17.0.1",
-    "react-dom": "17.0.1",
-    "tailwindcss": "^2.0.2"
+    "react-dom": "17.0.1"
   }
 }
