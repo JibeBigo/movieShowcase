@@ -18,6 +18,11 @@ const UserSchema = new mongoose.Schema({
         required: [true, 'This field is required.'],
         minlength: [8, 'Password must be at least 8 characters.']
     },
+    is_admin: {
+        type: String,
+        default: 0, 
+        nullable: true
+    },
     // rating: [
     //     {
     //         type: mongoose.Schema.Types.ObjectId,
