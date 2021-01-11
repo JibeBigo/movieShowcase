@@ -53,7 +53,7 @@ export default function Home({ user }) {
 
       </main>
   </div>
-  )
+  );
 }
 
 export async function getServerSideProps(context) {
