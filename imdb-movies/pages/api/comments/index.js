@@ -4,12 +4,27 @@ import Comment from '../../../models/Comment.js';
 dbConnect();
 
 export default async (req, res) => {
-    const { method } = req;
+  const { method } = req;
 
-    switch(method) {
-        case 'GET':
-            try {
-                const comments = await Comment.find({});
+  switch (method) {
+    case "GET":
+      try {
+        const comments = await Comment.aggregate([{
+            $lookup: {
+                from: 'movies',
+                localField: 'movie_id',
+                foreignField: '_id',
+                as: 'movie'
+            }
+        },
+            {
+                $lookup: {
+                    from: 'users',
+                    localField: 'user_id',
+                    foreignField: '_id',
+                    as: 'user'
+                }
+            }]);
 
                 res.status(200).json({success: true, data: comments})
             } catch (e) {
@@ -27,7 +42,6 @@ export default async (req, res) => {
         default:
             res.status(400).json({success: false})
             break;
-        case 'DELETE':
 
     }
 }
