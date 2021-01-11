@@ -4,12 +4,18 @@ const MovieSchema = new mongoose.Schema({
     id_movieDb: {
         type: String,
     },
-    rating: [
+    ratings: [
         {
             type: Number,
         }
     ],
     title: {
+        type: String,
+    },
+    overview: {
+        type: String,
+    },
+    backdrop: {
         type: String,
     },
     poster: {
@@ -26,4 +32,4 @@ const MovieSchema = new mongoose.Schema({
     
 })
 
-module.exports =  mongoose.model.MovieSchema || mongoose.model("Movie", MovieSchema);
+module.exports =  mongoose.models.Movie || mongoose.model("Movie", MovieSchema);
