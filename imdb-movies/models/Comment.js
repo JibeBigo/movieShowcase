@@ -8,12 +8,14 @@ const CommentSchema = new mongoose.Schema({
     },
     //TODO Adapter les deux prochains champs en innerjoin
     user_id: {
-        type: Number,
-        // type: mongoose.Schema.Types.ObjectId,
-        // ref: 'User'
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+        // type: String
     },
     movie_id: {
-        type: Number,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Movie'
+        // type: String
     }
 })
 
