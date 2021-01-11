@@ -6,16 +6,17 @@ export class MoviePoster extends Component {
   }
 
   addMovieToShowcase = (movie) => {
-    let {id, title, poster_path, release_date, genres} = movie
+    let {id, backdrop_path, title, overview, poster_path, release_date, genre_ids} = movie
     let movieToInsert = {
       id_movieDb: id,
+      backdrop: backdrop_path,
       rating: [],
       title: title,
+      overview: overview,
       poster: poster_path,
       release_date: release_date,
-      genres: genres,
+      genres: genre_ids,
     };
-    console.log(movie)
     fetch("http://localhost:3000/api/movies", {
       method: "POST",
       body: JSON.stringify(movieToInsert),
@@ -27,7 +28,7 @@ export class MoviePoster extends Component {
 
   render() {
     return (
-      <div className="ml-4 w-44 relative">
+      <div className="mx-2 w-44 relative">
         <button
           className="absolute top-0 right-0"
           onClick={() => this.addMovieToShowcase(this.props.movie)}
@@ -49,6 +50,7 @@ export class MoviePoster extends Component {
         </button>
         <img
           className="rounded-md shadow-none hover:shadow-white"
+          style={{height:"265px"}}
           src={
             "https://image.tmdb.org/t/p/w200/" + this.props.movie.poster_path
           }
