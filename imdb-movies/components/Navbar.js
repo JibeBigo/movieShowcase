@@ -1,7 +1,4 @@
 import 'tailwindcss/tailwind.css';
-import Link from 'next/link';
-import auth0 from '../utils/auth0';
-
 
 const Navbar = ({ user }) => {
 
@@ -32,16 +29,5 @@ const Navbar = ({ user }) => {
     </nav>
     )
 }
-
-
-// export async function getServerSideProps(context) {
-//     const session = await auth0.getSession(context.req);
-    
-//     return {
-//         props: {
-//             user: session?.user || null,
-//         },
-//     };
-// }
 
 export default Navbar;
