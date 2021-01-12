@@ -25,7 +25,6 @@ export default async (req, res) => {
                     as: 'user'
                 }
             }]);
-
                 res.status(200).json({success: true, data: comments})
             } catch (e) {
                 res.status(400).json({success:false})

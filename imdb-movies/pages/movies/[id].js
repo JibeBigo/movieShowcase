@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Comments from '../../components/comments/Comments'
 
 export default function Movie() {
   const router = useRouter();
@@ -20,6 +21,7 @@ export default function Movie() {
   }, [id]);
 
   return movie ? (
+  <div>
     <div className="flex items-start">
       <Link href="/">
         <div className=" flex flex-none m-4 p-2 cursor-pointer text-yellow-300 bg-gray-600 rounded-md border border-yellow-300 hover:bg-gray-900">
@@ -43,16 +45,16 @@ export default function Movie() {
       <div className="flex-col justify-start items-center mr-44">
         <div className="flex justify-center" style={{ height: "350px" }}>
           <img
-            src={"http://image.tmdb.org/t/p/w1280" + movie.backdrop}
-            className="w-full rounded-b-xl object-cover object-center"
-          ></img>
+    src={"http://image.tmdb.org/t/p/w1280" + movie.backdrop}
+    className="w-full rounded-b-xl object-cover object-center"
+    />
         </div>
         <div className="flex mt-4">
           <img
-            className="rounded-md"
-            style={{ height: "280px" }}
-            src={"https://image.tmdb.org/t/p/w200/" + movie.poster}
-          ></img>
+    className="rounded-md"
+    style={{height: "280px"}}
+    src={"https://image.tmdb.org/t/p/w200/" + movie.poster}
+    />
           <div className="flex-col text-white px-4">
             <div className="flex">
               <div className="flex-none font-contrail text-3xl mr-4">
@@ -90,6 +92,10 @@ export default function Movie() {
           </div>
         </div>
       </div>
+    </div>
+
+    {/*  COMMENTS RENDERING */}
+    <Comments movieId={id}/>
     </div>
   ) : (
     <div> Loading </div>
