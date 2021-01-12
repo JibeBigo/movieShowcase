@@ -5,7 +5,7 @@ const Navbar = ({ user }) => {
     return(
     <nav>
         <div className="flex justify-between items-center bg-gray-900 w-full h-16 px-4">
-            <div className="text-2xl font-bold text-yellow-300 md:text-3xl font-codystar">
+            <div className="text-2xl font-bold text-yellow-300 md:text-3xl font-squada">
                 <a href="#">IMDB Movies</a>
             </div>
             <div className="flex">

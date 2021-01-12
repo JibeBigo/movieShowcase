@@ -1,30 +1,9 @@
-import { useEffect, useContext } from 'react';
-import auth0 from '../utils/auth0';
+import { MoviesList } from "../components/movies/MoviesList";
 
-
-export default function Home({ user }) {
+export default function Movies() {
   return (
-    <div>   
-      <div>
-        <h1>Hello from HomePage</h1>
-        {user ? (
-          <div>
-            { user.nickname }
-          </div>
-        ) : (
-          <div></div>
-        )}
-      </div>
-  </div>
+    <div className="mx-44 mt-5">
+      <MoviesList></MoviesList>
+    </div>
   );
-}
-
-export async function getServerSideProps(context) {
-  const session = await auth0.getSession(context.req);
-  
-  return {
-      props: {
-        user: session?.user || null,
-      },
-  };
 }
