@@ -16,7 +16,6 @@ const Comments = () => {
 
 
     useEffect(() => {
-        console.log("debug")
         fetchComments();
     }, [])
 
