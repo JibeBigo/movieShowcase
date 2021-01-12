@@ -9,7 +9,9 @@ module.exports = {
       fontFamily: {
         fira: ["Fira Mono"],
         contrail: ["Contrail One"],
-        allerta: ["Allerta Stencil"]
+        allerta: ["Allerta Stencil"],
+        codystar: ["Codystar"],
+        squada: ["Squada One"]
       },
     },
   },

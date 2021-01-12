@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import MoviePoster from "./MoviePoster";
+import MoviePoster from "./MoviePosterAdmin";
 
 export class PopularMoviesList extends Component {
   state = {
