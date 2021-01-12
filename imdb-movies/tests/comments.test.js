@@ -1,3 +1,3 @@
-import { testComment } from '../pages/components/comments/CommentCard';
+const testComments = require('../pages/components/comments/CommentCard');
 
-console.log(testComment);
+console.log(testComments);

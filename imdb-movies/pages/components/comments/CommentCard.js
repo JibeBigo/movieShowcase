@@ -1,15 +1,16 @@
-import {useState} from "react";
+import React, {useState} from "react";
 
 const CommentCard = (props) => {
 
     const [edit, showEdit] = useState(false);
     const [input, setInput] = useState('');
 
-    const comment = props.comment;
 
+
+    const comment = props.comment;
     const handleDelete = async () => {
         await fetch(`http://localhost:3000/api/comments/${comment._id}`, {method: 'DELETE'})
-        props.fetchComments;
+        props.fetchComments();
     }
 
     const handleEdit = async() => {
@@ -25,17 +26,18 @@ const CommentCard = (props) => {
             }),
         })
         showEdit(false);
-        props.fetchComments;
+        props.fetchComments();
     }
 
-
-    return(
-    <div className="ml-4 max-w-5xl relative">
-        <div  className="border-2 border-blue-200 bg-blue-50 rounded-lg p-3  flex flex-col justify-center items-center md:items-start shadow-inner mb-4">
+    return (
+        <div>
+        { props.movieId === props.comment.movie_id &&
+    <div className="max-w-5xl m-auto">
+        <div className="border-2 border-blue-200 bg-blue-50 rounded-lg p-3  flex flex-col justify-center items-center md:items-start shadow-inner mb-4">
             <div className="flex justify-between w-full   mr-2">
                 <div className="flex items-center">
                     <img alt="avatar" width="48" height="48" className="rounded-full w-10 h-10 mr-4 shadow-lg mb-4" src="https://cdn1.iconfinder.com/data/icons/technology-devices-2/100/Profile-512.png"/>
-                    {/*TODO Regler bug avec le username (probablement problème lors de l'edit, à voir)*/}
+                    {/*TODO le bug semble venir du changement de la DB, à vérifier après intégration*/}
                     {/*<h3 className="text-purple-600 font-semibold text-lg text-center md:text-left ">{comment.user[0].username}</h3>*/}
                     <h3 className="text-purple-600 font-semibold text-lg text-center md:text-left ">Username</h3>
                 </div>
@@ -55,6 +57,13 @@ const CommentCard = (props) => {
         <div className="bg-gray-900 bg-opacity-50 fixed w-full h-full inset-0 pt-20 z-30">
             <div className="h-screen w-full absolute flex items-center justify-center bg-modal">
             <div className="bg-white rounded-2xl shadow p-8 m-4 max-w-xs max-h-full text-center">
+               <div className='flex flex-row-reverse hover:text-indigo-500'>
+                <svg onClick={e => {
+                    showEdit(false)
+                }} className=" w-8 h-8 "  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+               </div>
                 <div className="mb-4">
                     <h1 >Edit your comment :</h1>
                 </div>
@@ -72,11 +81,15 @@ const CommentCard = (props) => {
     </div>}
 
     </div>
+        }
+        </div>
     )
-
 }
 
-
+const testComments = (props) => {
+    return props.comment
+}
+export { testComments }
 export default CommentCard;
 
 
