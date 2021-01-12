@@ -13,7 +13,8 @@ const Navbar = ({ user }) => {
             <div className="flex">
                 {user.props.user ? (
                     <div>
-                        <Link href='/users/[id]' as ={`/users/${user.props.user.sub}`}>
+                        {/* <Link href='/users/[id]' as ={`/users/${user.props.user.sub}`}></Link> */}
+                        <Link href='/users/profile/profile'>
                             <a
                             className="mr-3 text-yellow-300"
                             >
