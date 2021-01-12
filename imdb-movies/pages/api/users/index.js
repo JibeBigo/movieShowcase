@@ -22,13 +22,15 @@ export default async (request, response) => {
                 // const bcrypt = require('bcryptjs');
                 // const pwdHashed = await bcrypt.hash(request.body.password, 10); // login => await bcrypt.compare(request.body.password, hashPwd)
                 const userDB = await User.findOne({ "email": request.body.email });
+                console.log(request.body, "check")
 
                 if (!userDB) {
                     const user = await User.create({
                         username: request.body.username,
                         email: request.body.email,
                         // password: pwdHashed
-                        is_admin: request.body.is_admin
+                        is_admin: request.body.is_admin,
+                        id_auth0: request.body.id_auth0
                     });
                     
                 } else {

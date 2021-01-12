@@ -23,6 +23,9 @@ const UserSchema = new mongoose.Schema({
         // default: 0, 
         nullable: true
     },
+    id_auth0: {
+        type: String,
+    },
     // rating: [
     //     {
     //         type: mongoose.Schema.Types.ObjectId,
