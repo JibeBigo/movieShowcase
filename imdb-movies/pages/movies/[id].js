@@ -23,7 +23,7 @@ export default function Movie() {
   return movie ? (
   <div>
     <div className="flex items-start">
-      <Link href="/movies">
+      <Link href="/">
         <div className=" flex flex-none m-4 p-2 cursor-pointer text-yellow-300 bg-gray-600 rounded-md border border-yellow-300 hover:bg-gray-900">
           <svg
             className="h-6 w-6 text-yellow-300 mr-2"
