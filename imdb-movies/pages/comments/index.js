@@ -22,7 +22,7 @@ const Comments = () => {
     return(
         <div>
             {comments.map((comment) =>
-           <CommentCard comment={comment} key={comment._id}/>
+           <CommentCard comment={comment} key={comment._id} fetchComments={fetchComments()}/>
             )}
         </div>
 
