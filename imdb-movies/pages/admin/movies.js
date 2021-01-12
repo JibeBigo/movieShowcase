@@ -6,6 +6,7 @@ export default function Movies() {
   return (
     <div className={styles.container}>
       <MoviesSearch></MoviesSearch>
+      <h1 className="font-fira mb-6 text-xl text-yellow-300">Popular movies</h1>
       <PopularMoviesList></PopularMoviesList>
     </div>
   );
