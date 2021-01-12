@@ -11,10 +11,10 @@ export class MoviePoster extends Component {
       <Link href={`/movies/${this.props.movie._id}`}>
         <div className="mx-2 w-44 cursor-pointer relative">
           <img
-            className="rounded-md shadow-none hover:shadow-white"
-            style={{ height: "265px" }}
-            src={"https://image.tmdb.org/t/p/w200/" + this.props.movie.poster}
-          ></img>
+    className="rounded-md shadow-none hover:shadow-white"
+    style={{height: "265px"}}
+    src={"https://image.tmdb.org/t/p/w200/" + this.props.movie.poster}
+    />
           <button className="absolute top-0 right-0">
             <svg
               className="h-8 w-8 text-pink-600"
