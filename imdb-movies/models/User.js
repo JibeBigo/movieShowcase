@@ -3,24 +3,24 @@ const mongoose = require('mongoose');
 const UserSchema = new mongoose.Schema({
     username: {
         type: String,
-        required: [true, 'This field is required.'],
-        unique: true,
-        minlength: [3, 'Username must be at least 3 characters.']
+        // required: [true, 'This field is required.'],
+        // unique: true,
+        // minlength: [3, 'Username must be at least 3 characters.']
     }, 
     email: {
         type: String,
-        required: [true, 'This field is required.'],
+        // required: [true, 'This field is required.'],
         unique: true,
-        match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Invalid email address.']
+        // match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Invalid email address.']
     },
-    password: {
-        type: String,
-        required: [true, 'This field is required.'],
-        minlength: [8, 'Password must be at least 8 characters.']
-    },
+    // password: {
+    //     type: String,
+    //     required: [true, 'This field is required.'],
+    //     minlength: [8, 'Password must be at least 8 characters.']
+    // },
     is_admin: {
-        type: String,
-        default: 0, 
+        type: Boolean,
+        // default: 0, 
         nullable: true
     },
     // rating: [

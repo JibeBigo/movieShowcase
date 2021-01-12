@@ -1,8 +1,31 @@
-import { useEffect, useContext } from 'react';
+import { useEffect } from 'react';
 import auth0 from '../utils/auth0';
 
 
 export default function Home({ user }) {
+
+  const postUserMongo = (newUser) => {
+    fetch('/api/users', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: newUser.nickname,
+        email: newUser.name,
+        is_admin: false
+      })
+    }).then(res => res.json())
+    .then(res => console.log(res))
+  }
+
+  useEffect(() => {
+    if (user != null) {
+      postUserMongo(user);
+    }
+  }, []);
+
   return (
     <div>   
       <div>
