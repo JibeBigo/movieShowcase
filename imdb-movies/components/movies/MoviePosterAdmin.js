@@ -34,7 +34,7 @@ export class MoviePosterAdmin extends Component {
           onClick={() => this.addMovieToShowcase(this.props.movie)}
         >
           <svg
-            className="h-8 w-8 text-gray-100"
+            className="h-8 w-8 text-yellow-400"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -51,8 +51,9 @@ export class MoviePosterAdmin extends Component {
         <img
           className="rounded-md shadow-none hover:shadow-white"
           style={{height:"265px"}}
-          src={
-            "https://image.tmdb.org/t/p/w200/" + this.props.movie.poster_path
+          src={ this.props.movie.poster_path ?
+                                            "https://image.tmdb.org/t/p/w200/" + this.props.movie.poster_path
+                                            : "/default.png"
           }
         ></img>
         <div className="font-contrail text-white">
