@@ -6,10 +6,29 @@ class ProfileEdit extends Component {
         super(props);
 
         this.state = {
-            username: this.props.user.nickname,
-            email: this.props.user.name,
-            password: ''
+            username: '',
+            email: '',
+            password: '',
+            userUpd: ''
+            // username: this.props.user.nickname,
+            // email: this.props.user.name,
+            // password: ''
         }
+    }
+
+    async componentDidMount() {
+        await fetch(`https://${process.env.AUTH0_DOMAIN}/api/v2/users/${this.props.user.sub}`, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + process.env.AUTH0_BEARER_TOKEN
+            },
+        }).then(res => res.json())
+        .then(res => this.setState({userUpd: res}))
+        this.setState({
+            username: this.state.userUpd.nickname,
+            email: this.state.userUpd.email
+        })
     }
     
     onChange = (e) => {
@@ -19,6 +38,7 @@ class ProfileEdit extends Component {
     }
 
     onSubmit = async (e) => {
+        e.preventDefault();
         try {
             if (this.state.password != '') {
                 fetch(`https://${process.env.AUTH0_DOMAIN}/api/v2/users/${this.props.user.sub}`, {
