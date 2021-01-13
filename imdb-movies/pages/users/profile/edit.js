@@ -1,6 +1,5 @@
 import auth0 from '../../../utils/auth0';
 import ProfileEdit from '../../../components/users/ProfileEdit';
-import Profile from '../../../components/users/profile';
 
 const EditProfile = ({ user }) => {
     return (
