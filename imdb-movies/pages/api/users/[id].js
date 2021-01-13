@@ -1,6 +1,6 @@
 import dbConnect from '../../../utils/dbConnect';
 import User from '../../../models/User';
-const bcrypt = require('bcryptjs');
+// const bcrypt = require('bcryptjs');
 
 
 dbConnect();
@@ -28,19 +28,31 @@ export default async (request, response) => {
 
         case 'PUT':
             try {
-                const newPwdHashed = await bcrypt.hash(request.body.password, 10);
+                // const newPwdHashed = await bcrypt.hash(request.body.password, 10);
 
-                const updateUser = await User.findByIdAndUpdate(
-                    id,
-                    {
-                        username: request.body.username,
-                        email: request.body.email,
-                        password: newPwdHashed
-                    },
-                    {
-                    new: true,
-                    runValidators: true
-                });
+                // const userDB = await User.findOne({ "email": request.body.email });
+
+                console.log(request.body.email)
+                console.log(request.body.username)
+                console.log(request.body._id)
+
+
+
+                // if (!userDB) {
+                    const updateUser = await User.findByIdAndUpdate(
+                        request.body._id,
+                        {
+                            username: request.body.username,
+                            email: request.body.email,
+                            // password: newPwdHashed
+                        },
+                        // {
+                        // new: true,
+                        // runValidators: true
+                    );
+                // } else {
+                //     return response.status(400).json({ success: false, message: "Email already exists." })
+                // }
 
                 if (!updateUser) {
                     return response.status(400).json({ success: false, message: 'User does not exist.' });
