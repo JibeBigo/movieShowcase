@@ -2,15 +2,32 @@ import React, { useState } from "react";
 
 export default function StarsRating(props) {
   const stars = [1, 2, 3, 4, 5];
-  const [rating, setRating] = useState(false);
+  const [isRating, setIsRating] = useState(false);
+  const [rating, setRating] = useState(0);
   const [hoverState, setHoverState] = useState(0);
-  const movie = props.movie
+  const movie = props.movie;
+
+  const saveRating = async (e) => {
+    const res = await fetch(`http://localhost:3000/api/movies/${movie._id}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        ratings: [...movie.ratings, rating],
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    setIsRating(0);
+    setRating(0);
+    props.getMovieFromId();
+  };
+
   return (
     <div>
-      {!rating ? (
+      {!isRating ? (
         <div className="flex items-center font-fira">
           {movie.ratings.length
-            ? movie.ratings.reduce((a, b) => a + b, 0) / movie.ratings.length
+            ? Math.round((movie.ratings.reduce((a, b) => a + b, 0) / movie.ratings.length) * 100)/100
             : "No rating"}
           <svg
             className="h-6 w-6 text-yellow-300 ml-2"
@@ -23,7 +40,7 @@ export default function StarsRating(props) {
           <a
             href="#"
             className="ml-3 px-2 py-1 text-yellow-300 bg-gray-600 rounded-md border border-yellow-300 hover:bg-gray-900"
-            onClick={() => setRating(true)}
+            onClick={() => setIsRating(true)}
           >
             Rate this movie
           </a>
@@ -35,7 +52,12 @@ export default function StarsRating(props) {
               key={index}
               onMouseEnter={() => setHoverState(index)}
               onMouseLeave={() => setHoverState(0)}
-              className="h-6 w-6 text-gray-300 ml-2"
+              onClick={() => setRating(index+1)}
+              className={`h-6 w-6 text-gray-300 ml-2 hover:text-yellow-400 ${
+                (hoverState || rating) >= index
+                  ? "text-yellow-400"
+                  : "text-grey-300"
+              }`}
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
@@ -44,11 +66,18 @@ export default function StarsRating(props) {
             </svg>
           ))}
           <a
-            onClick={() => setRating(false)}
+            onClick={(e) => saveRating(e)}
             href="#"
             className="ml-3 px-2 py-1 text-yellow-300 bg-gray-600 rounded-md border border-yellow-300 hover:bg-gray-900"
           >
             Save rating
+          </a>
+          <a
+            onClick={() => {setIsRating(0); setRating(0)}}
+            href="#"
+            className="ml-3 px-2 py-1 text-red-400 bg-gray-600 rounded-md border border-red-400 hover:bg-gray-900"
+          >
+            Cancel
           </a>
         </div>
       )}
