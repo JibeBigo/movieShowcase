@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import MoviePosterAdmin from "./MoviePosterAdmin";
+import {getDirector, getActors, getGenres} from './MoviesFunctions';
 
 export class MoviesSearch extends Component {
   constructor(props) {
@@ -10,7 +11,7 @@ export class MoviesSearch extends Component {
     };
   }
 
-  render() {
+    render() {
     return (
       <div className="flex-col w-full">
         <div className="flex my-8 w-full items-center">
@@ -50,7 +51,14 @@ export class MoviesSearch extends Component {
       `https://api.themoviedb.org/3/search/movie/?api_key=beddfc03d4e9041b7938fd3654c3131a&query=${this.state.inputValue}&page=1`,
     );
     const movies = await res.json();
+
+    for (let i = 0; i < movies.results.length; i++) {
+        movies.results[i].genres = await getGenres(movies.results[i].genre_ids)
+        movies.results[i].director = await getDirector(movies.results[i].id)
+        movies.results[i].actors = await getActors(movies.results[i].id)
+    }
     this.setState({movies: movies.results})
+      console.log(movies)
   };
 
   handleKeyPress = (e) => {

@@ -6,7 +6,9 @@ export class MoviePosterAdmin extends Component {
   }
 
   addMovieToShowcase = (movie) => {
-    let {id, backdrop_path, title, overview, poster_path, release_date, genre_ids} = movie
+    let {id, backdrop_path, title, overview, poster_path, release_date, genres, actors, director} = movie
+      console.log("Actors: " + actors)
+      console.log("Director: " + director)
     let movieToInsert = {
       id_movieDb: id,
       backdrop: backdrop_path,
@@ -15,7 +17,9 @@ export class MoviePosterAdmin extends Component {
       overview: overview,
       poster: poster_path,
       release_date: release_date,
-      genres: genre_ids,
+      genres: genres,
+      director: director,
+      actors: actors
     };
     fetch("http://localhost:3000/api/movies", {
       method: "POST",

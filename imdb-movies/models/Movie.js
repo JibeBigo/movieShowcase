@@ -28,6 +28,14 @@ const MovieSchema = new mongoose.Schema({
         {
             type: String,
         }
+    ],
+    director: {
+        type: String
+    },
+    actors: [
+        {
+            type: String
+        }
     ]
     
 })
