@@ -14,9 +14,16 @@ const Navbar = ({ user }) => {
                 {user.props.user ? (
                     <div>
                         {/* <Link href='/users/[id]' as ={`/users/${user.props.user.sub}`}></Link> */}
+                        <Link href='/admin/movies'>
+                            <a
+                            className="mr-5 text-yellow-300"
+                            >
+                            Admin
+                            </a>
+                        </Link>
                         <Link href='/users/profile/profile'>
                             <a
-                            className="mr-3 text-yellow-300"
+                            className="mr-5 text-yellow-300"
                             >
                             Profile
                             </a>
