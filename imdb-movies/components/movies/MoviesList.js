@@ -87,7 +87,10 @@ export class MoviesList extends Component {
                 document.getElementById('DirectorSelect').selectedIndex = 0;
                 break;
         }
+
     }
+  };
+
 
     render() {
 
@@ -154,12 +157,11 @@ export class MoviesList extends Component {
         <h1 className="font-fira my-2 text-xl text-yellow-300 overflow-hidden">Showcased movies</h1>
 
         <div className="flex flex-wrap mb-5">
-            {this.state.select !== null ? (
-                this.selectRender(this.state.select)
-            ) : (
-                this.state.movies.map((movie) => (<MoviePoster movie={movie} key={movie._id}/>))
-            )
-            }
+          {this.state.select !== null
+            ? this.selectRender(this.state.select)
+            : this.state.movies.map((movie) => (
+                <MoviePoster movie={movie} key={movie._id} />
+              ))}
         </div>
     </div>
     );

@@ -17,14 +17,14 @@ export default async (req, res) => {
       }
       break;
     case "POST":
-    try {
+      try {
         const movie = await Movie.create(req.body);
 
-        res.status(201).json({success: true, data: movie})
-    } catch (e) {
-        res.status(400).json({success: false})
-    }
-    break;
+        res.status(201).json({ success: true, data: movie });
+      } catch (e) {
+        res.status(400).json({ success: false });
+      }
+      break;
     default:
       res.status(400).json({ success: false });
       break;
