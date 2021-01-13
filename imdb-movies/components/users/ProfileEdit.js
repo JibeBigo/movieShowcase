@@ -9,14 +9,14 @@ class ProfileEdit extends Component {
             username: '',
             email: '',
             password: '',
-            userUpd: ''
-            // username: this.props.user.nickname,
-            // email: this.props.user.name,
-            // password: ''
+            userUpd: '',
+            userMongo: []
         }
     }
 
     async componentDidMount() {
+        this.getUserMongoDB();
+
         await fetch(`https://${process.env.AUTH0_DOMAIN}/api/v2/users/${this.props.user.sub}`, {
             method: 'GET',
             headers: {
@@ -39,6 +39,7 @@ class ProfileEdit extends Component {
 
     onSubmit = async (e) => {
         e.preventDefault();
+
         try {
             if (this.state.password != '') {
                 fetch(`https://${process.env.AUTH0_DOMAIN}/api/v2/users/${this.props.user.sub}`, {
@@ -50,10 +51,23 @@ class ProfileEdit extends Component {
                     body: JSON.stringify({
                         nickname: this.state.username,
                         name: this.state.email,
+                        // email: this.state.email,
                         password: this.state.password
                     })
-                }).then(res => res.json())
-
+                }).then(res => res.json());
+                
+                fetch(`/api/users/${this.state.userMongo[0]._id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _id: this.state.userMongo[0]._id,
+                        username: this.state.username,
+                        email: this.state.email
+                    })
+                })
                 Router.push('/users/profile/profile')
             } else {
                 fetch(`https://${process.env.AUTH0_DOMAIN}/api/v2/users/${this.props.user.sub}`, {
@@ -65,21 +79,41 @@ class ProfileEdit extends Component {
                     body: JSON.stringify({
                         nickname: this.state.username,
                         name: this.state.email,
+                        email: this.state.email,
                     })
                 }).then(res => res.json())
+
+                fetch(`/api/users/${this.state.userMongo[0]._id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _id: this.state.userMongo[0]._id,
+                        username: this.state.username,
+                        email: this.state.email
+                    })
+                })
                 Router.push('/users/profile/profile')
             }
         } catch (error) {
             console.log(error);
         }
 
-        this.setState({
-            username: '',
-            email: '',
-            password: ''
-        })
+        // this.setState({
+        //     username: '',
+        //     email: '',
+        //     password: ''
+        // })
     }
 
+    async getUserMongoDB() {
+        await fetch('/api/users', {
+            method: 'GET'
+        }).then(body => body.json())
+        .then(body => this.setState({ userMongo: body.data.filter(user => user.id_auth0 === this.props.user.sub)}))
+    }
 
     render() {
         return (
