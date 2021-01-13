@@ -20,7 +20,6 @@ export class PopularMoviesList extends Component {
           popular_movies.results[i].actors = await getActors(popular_movies.results[i].id)
       }
     this.setState({ popular_movies: popular_movies.results });
-      console.log(popular_movies)
   };
 
   componentDidMount() {
