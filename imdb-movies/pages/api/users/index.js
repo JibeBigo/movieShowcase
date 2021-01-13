@@ -22,7 +22,6 @@ export default async (request, response) => {
                 // const bcrypt = require('bcryptjs');
                 // const pwdHashed = await bcrypt.hash(request.body.password, 10); // login => await bcrypt.compare(request.body.password, hashPwd)
                 const userDB = await User.findOne({ "email": request.body.email });
-                console.log(request.body, "check")
 
                 if (!userDB) {
                     const user = await User.create({
