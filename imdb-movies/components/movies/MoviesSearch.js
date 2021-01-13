@@ -6,12 +6,34 @@ export class MoviesSearch extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      moviesInDbId: [],
       inputValue: "",
       movies: [],
     };
   }
 
-    render() {
+  fetchMoviesInDb = async () => {
+    const res = await fetch("http://localhost:3000/api/movies");
+    let movies = await res.json();
+    movies = movies.data.map(({ id_movieDb }) => id_movieDb);
+    this.setState({ moviesInDbId: movies });
+  };
+
+  removeMovie = (id) => {
+    this.setState({
+      moviesInDbId: this.state.moviesInDbId.filter((movie) => movie !== id),
+    });
+  };
+
+  addMovie = (id) => {
+    this.setState({ moviesInDbId: [...this.state.moviesInDbId, id] });
+  };
+
+  componentDidMount() {
+    this.fetchMoviesInDb();
+  }
+
+  render() {
     return (
       <div className="flex-col w-full">
         <div className="flex my-8 w-full items-center">
@@ -33,7 +55,13 @@ export class MoviesSearch extends Component {
         </div>
         <div className="flex flex-wrap">
           {this.state.movies.map((movie) => (
-            <MoviePosterAdmin movie={movie} key={movie.id}></MoviePosterAdmin>
+            <MoviePosterAdmin
+              movie={movie}
+              key={movie.id}
+              moviesInDbId={this.state.moviesInDbId}
+              removeMovie={this.removeMovie}
+              addMovie={this.addMovie}
+            ></MoviePosterAdmin>
           ))}
         </div>
       </div>
@@ -53,12 +81,12 @@ export class MoviesSearch extends Component {
     const movies = await res.json();
 
     for (let i = 0; i < movies.results.length; i++) {
-        movies.results[i].genres = await getGenres(movies.results[i].genre_ids)
-        movies.results[i].director = await getDirector(movies.results[i].id)
-        movies.results[i].actors = await getActors(movies.results[i].id)
+      movies.results[i].genres = await getGenres(movies.results[i].genre_ids);
+      movies.results[i].director = await getDirector(movies.results[i].id);
+      movies.results[i].actors = await getActors(movies.results[i].id);
     }
-    this.setState({movies: movies.results})
-      console.log(movies)
+    this.setState({ movies: movies.results });
+    console.log(movies);
   };
 
   handleKeyPress = (e) => {
