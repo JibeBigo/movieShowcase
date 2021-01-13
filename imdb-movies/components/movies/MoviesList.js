@@ -89,7 +89,7 @@ export class MoviesList extends Component {
         }
 
     }
-  };
+  
 
 
     render() {
