@@ -15,6 +15,7 @@ export default function Movie() {
     setMovie(movie.data);
   };
 
+
   useEffect(() => {
     if (id) {
       getMovieFromId();
@@ -74,6 +75,42 @@ export default function Movie() {
                 {new Date(movie.release_date).toLocaleDateString()}
               </div>
             </div>
+            <h1 className="font-fira my-2 text-xl text-yellow-300">Synopsis</h1>
+              <div className="text-white font-allerta">{movie.overview}</div>
+              <div className='flex flex-row justify-between max-w-2xl'>
+                  <div className="flex flex-col">
+            <h1 className="font-fira mt-2 text-lg text-yellow-200">
+              Release Date
+            </h1>
+            <div className="text-white font-mono">
+              {new Date(movie.release_date).toLocaleDateString()}
+            </div>
+              <h1 className="font-fira mt-2 text-lg text-yellow-200">
+             Genres
+            </h1>
+            <div className="text-white font-mono">
+                {movie.genres.map((genre) => {
+                    return <p>{genre}</p>
+                })}
+            </div>
+                  </div>
+                  <div>
+              <h1 className="font-fira mt-2 text-lg text-yellow-200">
+              Director
+            </h1>
+            <div className="text-white font-mono">
+              {movie.director}
+            </div>
+              <h1 className="font-fira mt-2 text-lg text-yellow-200">
+                  Actors
+              </h1>
+              <div className="text-white font-mono">
+                  {movie.actors.map((actor) => {
+                      return <p>{actor}</p>
+                  })}
+              </div>
+                  </div>
+              </div>
           </div>
           {/*  COMMENTS RENDERING */}
           <Comments movieId={id} />

@@ -11,7 +11,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         // required: [true, 'This field is required.'],
         unique: true,
-        // match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Invalid email address.']
+        match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Invalid email address.']
     },
     // password: {
     //     type: String,
@@ -22,6 +22,9 @@ const UserSchema = new mongoose.Schema({
         type: Boolean,
         // default: 0, 
         nullable: true
+    },
+    id_auth0: {
+        type: String,
     },
     // rating: [
     //     {

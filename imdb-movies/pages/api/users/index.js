@@ -28,7 +28,8 @@ export default async (request, response) => {
                         username: request.body.username,
                         email: request.body.email,
                         // password: pwdHashed
-                        is_admin: request.body.is_admin
+                        is_admin: request.body.is_admin,
+                        id_auth0: request.body.id_auth0
                     });
                     
                 } else {
