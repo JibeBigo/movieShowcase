@@ -39,7 +39,7 @@ class ProfileEdit extends Component {
 
     onSubmit = async (e) => {
         e.preventDefault();
-
+      
         try {
             if (this.state.password != '') {
                 fetch(`https://${process.env.AUTH0_DOMAIN}/api/v2/users/${this.props.user.sub}`, {

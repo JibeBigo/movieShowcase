@@ -26,7 +26,7 @@ export class MoviesSearch extends Component {
           />
           <button
             className="border h-12 py-2 px-6 rounded-r-lg  bg-gray-900 text-white hover:border-transparent hover:bg-white hover:text-black"
-            onSubmit={() => this.onSubmit()}
+            onClick={() => this.onSubmit()}
           >
             Search
           </button>
