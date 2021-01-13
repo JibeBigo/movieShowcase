@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import CommentCard from "../../pages/components/comments/CommentCard";
+import CommentCard from "./CommentCard";
 
 const Comments = (props) => {
 
