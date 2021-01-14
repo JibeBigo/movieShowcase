@@ -46,7 +46,11 @@ export default function Movie() {
         <div className="flex-col justify-start items-center mr-44">
           <div className="flex justify-center" style={{ height: "350px" }}>
             <img
-              src={"http://image.tmdb.org/t/p/w1280" + movie.backdrop}
+              src={
+                movie.backdrop
+                  ? "http://image.tmdb.org/t/p/w1280" + movie.backdrop
+                  : "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=2550&q=80"
+              }
               className="w-full rounded-b-xl object-cover object-center"
             />
           </div>

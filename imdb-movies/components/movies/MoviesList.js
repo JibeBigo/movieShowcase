@@ -2,23 +2,23 @@ import React, { Component } from "react";
 import MoviePoster from "./MoviePoster";
 
 export class MoviesList extends Component {
-    state = {
-        movies: [],
-        select: null,
-        genreArray: [],
-        yearArray: [],
-        directorArray: [],
-        selectedDir: null,
-        selectedGenre: null,
-        selectedYear: null,
-    };
+  state = {
+    movies: [],
+    select: null,
+    genreArray: [],
+    yearArray: [],
+    directorArray: [],
+    selectedDir: null,
+    selectedGenre: null,
+    selectedYear: null,
+  };
 
-    fetchMovies = async () => {
-        const res = await fetch("http://localhost:3000/api/movies");
-        const movies = await res.json();
-        this.setState({ movies: movies.data });
-        this.fillArray(movies.data)
-    };
+  fetchMovies = async () => {
+    const res = await fetch("http://localhost:3000/api/movies");
+    const movies = await res.json();
+    this.setState({ movies: movies.data });
+    this.fillArray(movies.data);
+  };
 
     fillArray = (movies) => {
         let dir = [];
@@ -59,6 +59,15 @@ export class MoviesList extends Component {
     async componentDidMount() {
         await this.fetchMovies();
     }
+    dir.sort(lastNameSort);
+    genres.sort();
+    year.sort();
+    this.setState({
+      directorArray: dir,
+      genreArray: genres,
+      yearArray: year,
+    });
+  };
 
     selectRender = (select) => {
         switch(select.menu) {
