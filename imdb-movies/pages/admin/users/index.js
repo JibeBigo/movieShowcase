@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import auth0 from '../../../utils/auth0';
 
-const UserAdminPanel = () => {
+const UserAdminPanel = ({ user }) => {
     const [allUsers, setAllUsers] = useState([]);
-
-    console.log(allUsers)
 
     useEffect(async () => {
         await fetch(`https://${process.env.AUTH0_DOMAIN}/api/v2/users`, {
@@ -58,7 +57,9 @@ const UserAdminPanel = () => {
                             <td className="border px-2 py-1 border border-4 border-gray-900 text-center">{ user.name }</td>
                             <td className="border px-2 py-1 border border-4 border-gray-900 text-center">
                                 <div className="flex justify-evenly">
-                                    <button className="rounded px-2 bg-blue-400 border border-blue-400">Edit</button>
+                                    <Link href='/admin/users/[id]' as ={`/admin/users/${ user.user_id}`} user={user}>
+                                        <button className="rounded px-2 bg-blue-400 border border-blue-400">Edit</button>
+                                    </Link>
                                     <button className="rounded px-2 bg-red-400 border border-red-400" value={user.user_id} onClick={handleDelete}>Delete</button>
                                 </div>
                             </td>
@@ -81,3 +82,13 @@ const UserAdminPanel = () => {
 }
 
 export default UserAdminPanel;
+
+export async function getServerSideProps(context) {
+    const session = await auth0.getSession(context.req);
+    
+    return {
+        props: {
+            user: session?.user || null,
+        },
+    };
+}

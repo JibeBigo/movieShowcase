@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import auth0 from '../../../utils/auth0';
 
-const NewUser = () => {
+const NewUser = ({ user }) => {
     const [form, setForm] = useState({ username: '', email: '', password: ''});
     const router = useRouter();
 
@@ -14,7 +15,6 @@ const NewUser = () => {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        console.log(form.username, form.email, form.password, 'test')
         await fetch(`https://${process.env.AUTH0_DOMAIN}/api/v2/users`, {
             method: 'POST',
             headers: {
@@ -79,3 +79,13 @@ const NewUser = () => {
 }
 
 export default NewUser;
+
+export async function getServerSideProps(context) {
+    const session = await auth0.getSession(context.req);
+    
+    return {
+        props: {
+            user: session?.user || null,
+        },
+    };
+}
