@@ -43,7 +43,7 @@ export default function Home({ user }) {
   }, []);
 
   return (
-    <div className="mx-44 mt-5">
+    <div className="mx-2 md:mx-10 lg:mx-44 mt-5">
       <MoviesList></MoviesList>
     </div>
   );
