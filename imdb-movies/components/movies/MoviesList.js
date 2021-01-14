@@ -33,8 +33,8 @@ export class MoviesList extends Component {
                     genres.push(genre)
                 }
             })
-            if (!year.includes(movie.release_date)) {
-                year.push(movie.release_date)
+            if (!year.includes(movie.release_date.substring(0,4))) {
+                year.push(movie.release_date.substring(0,4))
             }
         })
 
@@ -44,18 +44,19 @@ export class MoviesList extends Component {
             else
                 return -1;
         }
-        dir.sort();
+
         dir.sort(lastNameSort);
         genres.sort();
         year.sort();
+        let newYear = [... new Set(year)]
         this.setState({
             directorArray: dir,
             genreArray: genres,
-            yearArray: year
+            yearArray: newYear
         })
     }
 
-    async componentWillMount() {
+    async componentDidMount() {
         await this.fetchMovies();
     }
 
@@ -88,10 +89,14 @@ export class MoviesList extends Component {
                 document.getElementById('DirectorSelect').selectedIndex = 0;
                 break;
         }
-
     }
-  
 
+    resetFilters = () => {
+        document.getElementById('GenresSelect').selectedIndex = 0;
+        document.getElementById('YearSelect').selectedIndex = 0;
+        document.getElementById('DirectorSelect').selectedIndex = 0;
+        this.setState({select: null})
+    }
 
     render() {
 
@@ -103,14 +108,15 @@ export class MoviesList extends Component {
                              viewBox="0 0 412 232">
                             <path
                                 d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.764-9.763 25.592 0 35.355l181 181c4.88 4.882 11.279 7.323 17.677 7.323s12.796-2.441 17.678-7.322l181-181c9.763-9.764 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z"
-                                fill="#648299" fill-rule="nonzero"/>
+                                fill="#648299" fillRule="nonzero"/>
                         </svg>
                         <select id={'DirectorSelect'} onChange={e => {this.handleSelect(e, 'director')}}
-                                className="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none">
-                            <option selected={true} disabled={true}>Filter by Director</option>
+                                className="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none"
+                                defaultValue={"Filter by Director"}>
+                            <option disabled={true}>Filter by Director</option>
                             {this.state.directorArray.length !== 0 ? (
-                                this.state.directorArray.map((director) => (
-                                    <option>{director}</option>
+                                this.state.directorArray.map((director, index) => (
+                                    <option key={index}>{director}</option>
 
                                 )) ) : (
                                 <option disabled={true}>Loading</option>
@@ -122,13 +128,14 @@ export class MoviesList extends Component {
                              viewBox="0 0 412 232">
                             <path
                                 d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.764-9.763 25.592 0 35.355l181 181c4.88 4.882 11.279 7.323 17.677 7.323s12.796-2.441 17.678-7.322l181-181c9.763-9.764 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z"
-                                fill="#648299" fill-rule="nonzero"/>
+                                fill="#648299" fillRule="nonzero"/>
                         </svg>
                         <select id={'GenresSelect'} onChange={e => {this.handleSelect(e, 'genres')}}
-                                className="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none">
-                            <option selected={true} disabled={true}>Filter by Genre</option>
-                            {this.state.genreArray.map((genre) => (
-                                <option>{genre}</option>
+                                className="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none"
+                                defaultValue={"Filter by Genre"}>
+                            <option disabled={true}>Filter by Genre</option>
+                            {this.state.genreArray.map((genre, index) => (
+                                <option key={index}>{genre}</option>
                             ))}
                         </select>
                     </div>
@@ -137,36 +144,33 @@ export class MoviesList extends Component {
                              viewBox="0 0 412 232">
                             <path
                                 d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.764-9.763 25.592 0 35.355l181 181c4.88 4.882 11.279 7.323 17.677 7.323s12.796-2.441 17.678-7.322l181-181c9.763-9.764 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z"
-                                fill="#648299" fill-rule="nonzero"/>
+                                fill="#648299" fillRule="nonzero"/>
                         </svg>
                         <select id={'YearSelect'}
-                                className="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none"                                onChange={e => {this.handleSelect(e, 'year')}}>
-                        <option selected={true} disabled={true}>Filter by Year</option>
-                            {this.state.yearArray.map((year) => (
-                                <option>{year.substring(0,4)}</option>
+                                className="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none"
+                                onChange={e => {this.handleSelect(e, 'year')}}
+                                defaultValue={"Filter by Year"}>
+                            <option disabled={true}>Filter by Year</option>
+                            {this.state.yearArray.map((year, index) => (
+                                <option key={index}>{year}</option>
                             ))}
-                    </select>
+                        </select>
+                    </div>
+                    <button onClick={() => this.resetFilters()}
+                            className="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none">Reset Filters</button>
                 </div>
-                <button onClick={() => {
-                    document.getElementById('GenresSelect').selectedIndex = 0;
-                    document.getElementById('YearSelect').selectedIndex = 0;
-                    document.getElementById('DirectorSelect').selectedIndex = 0;
-                    this.setState({select: null})
-                }}
-                        className="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none">Reset Filters</button>
+                <h1 className="font-fira my-2 text-xl text-yellow-300 overflow-hidden">Showcased movies</h1>
+
+                <div className="flex flex-wrap mb-5">
+                    {this.state.select !== null
+                        ? this.selectRender(this.state.select)
+                        : this.state.movies.map((movie) => (
+                            <MoviePoster movie={movie} key={movie._id} />
+                        ))}
+                </div>
             </div>
-        <h1 className="font-fira my-2 text-xl text-yellow-300 overflow-hidden">Showcased movies</h1>
-
-        <div className="flex flex-wrap mb-5">
-          {this.state.select !== null
-            ? this.selectRender(this.state.select)
-            : this.state.movies.map((movie) => (
-                <MoviePoster movie={movie} key={movie._id} />
-              ))}
-        </div>
-    </div>
-    );
+        );
     }
-    }
+}
 
-    export default MoviesList;
+export default MoviesList;
