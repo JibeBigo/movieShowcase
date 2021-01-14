@@ -10,8 +10,6 @@ const EditUser = ({ userAuth }) => {
     const router = useRouter();
     const userId = router.query.id;    
 
-    console.log(user.is_admin)
-
     useEffect(async () =>{
         getUserMongoDB();
 
@@ -49,12 +47,10 @@ const EditUser = ({ userAuth }) => {
         // } else {
         //     setUser({ is_admin: true});
         // }
-        console.log(user.is_admin, 'toggle')
     }
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        console.log(user.is_admin, 'in')
         try {
             if (form.password != 'undefined') {
                 await fetch(`https://${process.env.AUTH0_DOMAIN}/api/v2/users/${userId}`, {
@@ -86,7 +82,7 @@ const EditUser = ({ userAuth }) => {
                         email: form.email,
                         is_admin: user.is_admin
                     })
-                }).then(res => console.log(res.json()))
+                })
                 
                 router.push('/admin/users')
             } else {
