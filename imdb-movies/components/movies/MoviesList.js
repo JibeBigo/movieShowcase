@@ -111,7 +111,7 @@ export class MoviesList extends Component {
                                 fill="#648299" fillRule="nonzero"/>
                         </svg>
                         <select id={'DirectorSelect'} onChange={e => {this.handleSelect(e, 'director')}}
-                                className="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none"
+                                className="border border-yellow-300 cursor-pointer rounded-full text-white h-10 pl-5 pr-10 bg-gray-900 hover:border-gray-400 focus:outline-none appearance-none"
                                 defaultValue={"Filter by Director"}>
                             <option disabled={true}>Filter by Director</option>
                             {this.state.directorArray.length !== 0 ? (
@@ -131,7 +131,7 @@ export class MoviesList extends Component {
                                 fill="#648299" fillRule="nonzero"/>
                         </svg>
                         <select id={'GenresSelect'} onChange={e => {this.handleSelect(e, 'genres')}}
-                                className="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none"
+                                className="border border-yellow-300 cursor-pointer rounded-full text-white h-10 pl-5 pr-10 bg-gray-900 hover:border-gray-400 focus:outline-none appearance-none"
                                 defaultValue={"Filter by Genre"}>
                             <option disabled={true}>Filter by Genre</option>
                             {this.state.genreArray.map((genre, index) => (
@@ -147,7 +147,7 @@ export class MoviesList extends Component {
                                 fill="#648299" fillRule="nonzero"/>
                         </svg>
                         <select id={'YearSelect'}
-                                className="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none"
+                                className="border border-yellow-300 cursor-pointer rounded-full text-white h-10 pl-5 pr-10 bg-gray-900 hover:border-gray-400 focus:outline-none appearance-none"
                                 onChange={e => {this.handleSelect(e, 'year')}}
                                 defaultValue={"Filter by Year"}>
                             <option disabled={true}>Filter by Year</option>
@@ -157,7 +157,7 @@ export class MoviesList extends Component {
                         </select>
                     </div>
                     <button onClick={() => this.resetFilters()}
-                            className="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none">Reset Filters</button>
+                            className="ml-3 px-2 py-1 text-red-500 bg-gray-600 rounded-md border border-red-500 hover:bg-gray-900 focus:outline-none">Reset Filters</button>
                 </div>
                 <h1 className="font-fira my-2 text-xl text-yellow-300 overflow-hidden">Showcased movies</h1>
 
