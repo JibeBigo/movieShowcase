@@ -7,6 +7,7 @@ export const getDirector = (id) => {
                         return data.crew[i].name;
                     }
                 }
+                return "Director Unknown"
             })
     );
     }

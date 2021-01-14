@@ -44,6 +44,7 @@ export class MoviesList extends Component {
             else
                 return -1;
         }
+        dir.sort();
         dir.sort(lastNameSort);
         genres.sort();
         year.sort();
