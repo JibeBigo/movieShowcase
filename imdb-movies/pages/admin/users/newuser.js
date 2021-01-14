@@ -22,7 +22,6 @@ const NewUser = ({ userAuth }) => {
     }
 
     const onSubmit = async (e) => {
-        console.log(user.is_admin)
         e.preventDefault();
         await fetch(`https://${process.env.AUTH0_DOMAIN}/api/v2/users`, {
             method: 'POST',
