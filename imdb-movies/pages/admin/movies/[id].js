@@ -40,24 +40,26 @@ export default function Movie() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = async(e) => {
-    e.preventDefault()
+  const onSubmit = async (e) => {
+    e.preventDefault();
     let actors = form.actors.split(",");
     const data = {
       ...form,
-      actors: typeof form.actors == "string" ? form.actors.split(",") : form.actors,
-      genres: typeof form.genres == "string" ? form.genres.split(",") : form.genres,
+      actors:
+        typeof form.actors == "string" ? form.actors.split(",") : form.actors,
+      genres:
+        typeof form.genres == "string" ? form.genres.split(",") : form.genres,
     };
-     await fetch(`http://localhost:3000/api/movies/${id}`, {
-                    method: 'PUT',
-                    headers: {
-                        "Content-Type": "application/json; charset=utf-8",
-                    },
-                    body: JSON.stringify (data)
-                }).then(res => res.json())
-                
-                router.push('/admin/showcasedMovies')
-  }
+    await fetch(`http://localhost:3000/api/movies/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+      body: JSON.stringify(data),
+    }).then((res) => res.json());
+
+    router.push("/admin/showcasedMovies");
+  };
 
   return movie ? (
     <div>
@@ -89,13 +91,40 @@ export default function Movie() {
             />
           </div>
           <div className="flex mt-4">
-            <img
-              className="rounded-md"
-              style={{ height: "280px" }}
-              src={"https://image.tmdb.org/t/p/w200/" + movie.poster}
-            />
+            <div className="flex-none">
+              <img
+                className="rounded-md object-fill"
+                style={{ height: "280px" }}
+                src={"https://image.tmdb.org/t/p/w200/" + movie.poster}
+              />
+              <div className="bg-gray-700 rounded-xl p-3 mt-4 shadow-xl">
+                <div className="text-white font-fira">Ratings</div>
+                <div className="text-yellow-400 font-allerta break-all w-40">
+                  {movie.ratings.join(", ")}
+                </div>
+                <div className="text-white font-fira">Max Rating</div>
+                <div className="text-yellow-400 font-allerta">
+                  {Math.max(...movie.ratings)}
+                </div>
+                <div className="text-white font-fira">Min Rating</div>
+                <div className="text-yellow-400 font-allerta">
+                  {Math.min(...movie.ratings)}
+                </div>
+                <div className="text-white font-fira">Mean</div>
+                <div className="text-yellow-400 font-allerta">
+                  {Math.round(
+                    (movie.ratings.reduce((a, b) => a + b, 0) /
+                      movie.ratings.length) *
+                      100,
+                  ) / 100}
+                </div>
+              </div>
+            </div>
             <div className="text-white px-4 w-full">
-              <form onSubmit={(e) => onSubmit(e)} className="flex-col space-y-4 w-full">
+              <form
+                onSubmit={(e) => onSubmit(e)}
+                className="flex-col space-y-4 w-full"
+              >
                 <div className="flex-col w-full">
                   <label htmlFor="title">Title: </label>
                   <br />
