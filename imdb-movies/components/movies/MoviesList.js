@@ -59,15 +59,6 @@ export class MoviesList extends Component {
     async componentDidMount() {
         await this.fetchMovies();
     }
-    dir.sort(lastNameSort);
-    genres.sort();
-    year.sort();
-    this.setState({
-      directorArray: dir,
-      genreArray: genres,
-      yearArray: year,
-    });
-  };
 
     selectRender = (select) => {
         switch(select.menu) {
