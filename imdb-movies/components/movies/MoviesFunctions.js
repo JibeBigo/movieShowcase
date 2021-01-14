@@ -10,7 +10,7 @@ export const getDirector = (id) => {
                 return "Director Unknown"
             })
     );
-    }
+}
 
 export const getActors = async (id) => {
     let r = await fetch(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=beddfc03d4e9041b7938fd3654c3131a`);
@@ -29,7 +29,6 @@ export const getActors = async (id) => {
     } else {
         length = 5;
     }
-
     for (let i = 0; i < length; i++) {
         actorsArray.push(data.cast[i].name)
     }
@@ -47,9 +46,9 @@ export const getGenres = async (id) => {
 
     for (let i= 0; i < id.length; i++) {
         for (let j = 0; j < data.genres.length; j ++)
-        if (id[i] === data.genres[j].id) {
-            genresArray.push(data.genres[j].name)
-        }
+            if (id[i] === data.genres[j].id) {
+                genresArray.push(data.genres[j].name)
+            }
     }
     return genresArray;
 }
