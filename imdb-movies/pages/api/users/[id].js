@@ -29,15 +29,8 @@ export default async (request, response) => {
         case 'PUT':
             try {
                 // const newPwdHashed = await bcrypt.hash(request.body.password, 10);
-
                 // const userDB = await User.findOne({ "email": request.body.email });
-
-                console.log(request.body.email)
-                console.log(request.body.username)
-                console.log(request.body._id)
-
-
-
+                
                 // if (!userDB) {
                     const updateUser = await User.findByIdAndUpdate(
                         request.body._id,
@@ -45,6 +38,7 @@ export default async (request, response) => {
                             username: request.body.username,
                             email: request.body.email,
                             // password: newPwdHashed
+                            is_admin: request.body.is_admin
                         },
                         // {
                         // new: true,

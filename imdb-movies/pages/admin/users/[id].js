@@ -5,11 +5,16 @@ import auth0 from '../../../utils/auth0';
 
 const EditUser = ({ userAuth }) => {
     const [form, setForm] = useState({ username: '', email: '', password: ''});
-    const [user, setUser] = useState({ is_admin: '' })
+    const [user, setUser] = useState({ is_admin: '' });
+    const [userMongo, setUserMongo] = useState([]);
     const router = useRouter();
     const userId = router.query.id;    
 
+    console.log(user.is_admin)
+
     useEffect(async () =>{
+        getUserMongoDB();
+
         await fetch(`https://${process.env.AUTH0_DOMAIN}/api/v2/users/${userId}`, {
             method: 'GET',
             headers: {
@@ -17,9 +22,15 @@ const EditUser = ({ userAuth }) => {
                 "Authorization": "Bearer " + process.env.AUTH0_BEARER_TOKEN
                 }
             }).then(res => res.json())
-            .then(res => {setForm({username: res.nickname, email: res.email}), setUser({is_admin: res.app_metadata.is_admin})})
+            .then(res => {setForm({username: res.nickname, email: res.name}), setUser({is_admin: res.app_metadata.is_admin})})
     }, [])
 
+    const getUserMongoDB = async () =>{
+        await fetch('/api/users', {
+            method: 'GET'
+        }).then(body => body.json())
+        .then(body => setUserMongo( body.data.filter(user => user.id_auth0 === userId) ))
+    }
 
     const onChange = (e) => {
         setForm ({
@@ -28,20 +39,22 @@ const EditUser = ({ userAuth }) => {
         })
     }
 
-    const onChangeAdmin= (e) => {
-        setUser(prevState => ({
+    const onChangeAdmin = async (e) => {
+        await setUser( prevState => ({
             is_admin: !prevState.is_admin
         }));
-        // console.log(user.is_admin, 'second test')
+        
         // if(document.querySelector('#admin').checked == 1) {
-        //     console.log('true')
+        //     setUser({ is_admin: true});
         // } else {
-        //     console.log('false')
+        //     setUser({ is_admin: true});
         // }
+        console.log(user.is_admin, 'toggle')
     }
 
     const onSubmit = async (e) => {
         e.preventDefault();
+        console.log(user.is_admin, 'in')
         try {
             if (form.password != 'undefined') {
                 await fetch(`https://${process.env.AUTH0_DOMAIN}/api/v2/users/${userId}`, {
@@ -60,6 +73,20 @@ const EditUser = ({ userAuth }) => {
                         }
                     })
                 }).then(res => res.json())
+
+                await fetch(`/api/users/${userMongo[0]._id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _id: userMongo[0]._id,
+                        username: form.username,
+                        email: form.email,
+                        is_admin: user.is_admin
+                    })
+                }).then(res => console.log(res.json()))
                 
                 router.push('/admin/users')
             } else {
@@ -78,6 +105,20 @@ const EditUser = ({ userAuth }) => {
                         }
                     })
                 }).then(res => res.json())
+
+                await fetch(`/api/users/${userMongo[0]._id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _id: userMongo[0]._id,
+                        username: form.username,
+                        email: form.email,
+                        is_admin: user.is_admin
+                    })
+                })
                 
                 router.push('/admin/users')
             }
@@ -125,7 +166,7 @@ const EditUser = ({ userAuth }) => {
 
                         { user.is_admin == true ? (
                             <div>
-                                <input defaultChecked={true} id="admin"  name="admin" type="checkbox" value={user.is_admin} onChange={onChangeAdmin} />
+                                <input checked id="admin"  name="admin" type="checkbox" value={user.is_admin} onChange={onChangeAdmin} />
                                 <label className="text-yellow-300 ml-2">Admin</label><br/>
                             </div>
                         ):(
