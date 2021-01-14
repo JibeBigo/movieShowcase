@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import MoviePoster from "./MoviePoster";
+import MoviePosterAdmin from "./MoviePosterAdmin";
 
-export class MoviesList extends Component {
+export class MoviesListAdmin extends Component {
   state = {
     movies: [],
     select: null,
@@ -11,13 +11,32 @@ export class MoviesList extends Component {
     selectedDir: null,
     selectedGenre: null,
     selectedYear: null,
+    moviesInDbId: [],
   };
 
   fetchMovies = async () => {
     const res = await fetch("http://localhost:3000/api/movies");
     const movies = await res.json();
+    // mapping movies ids such that the MoviePosterAdmin component get the movieDB id rather than mongoDB's
+    movies.data.map((movie) => {
+      movie.id = movie.id_movieDb;
+      movie.poster_path = movie.poster;
+    });
     this.setState({ movies: movies.data });
+    this.setState({
+      moviesInDbId: movies.data.map(({ id_movieDb }) => id_movieDb),
+    });
     this.fillArray(movies.data);
+  };
+
+  removeMovie = (id) => {
+    this.setState({
+      moviesInDbId: this.state.moviesInDbId.filter((movie) => movie !== id),
+    });
+  };
+
+  addMovie = (id) => {
+    this.setState({ moviesInDbId: [...this.state.moviesInDbId, id] });
   };
 
   fillArray = (movies) => {
@@ -52,7 +71,7 @@ export class MoviesList extends Component {
     });
   };
 
-  async componentWillMount() {
+  async componentDidMount() {
     await this.fetchMovies();
   }
 
@@ -61,18 +80,48 @@ export class MoviesList extends Component {
       case "genres":
         return this.state.movies
           .filter((movie) => movie.genres.includes(select.value))
-          .map((movie) => <MoviePoster movie={movie} key={movie._id} />);
+          .map((movie) => (
+            <MoviePosterAdmin
+              movie={movie}
+              key={movie._id}
+              moviesInDbId={this.state.moviesInDbId}
+              removeMovie={this.removeMovie}
+              addMovie={this.addMovie}
+            />
+          ));
       case "year":
         return this.state.movies
           .filter((movie) => movie.release_date.includes(select.value))
-          .map((movie) => <MoviePoster movie={movie} key={movie._id} />);
+          .map((movie) => (
+            <MoviePosterAdmin
+              movie={movie}
+              key={movie._id}
+              moviesInDbId={this.state.moviesInDbId}
+              removeMovie={this.removeMovie}
+              addMovie={this.addMovie}
+            />
+          ));
       case "director":
         return this.state.movies
           .filter((movie) => movie.director.includes(select.value))
-          .map((movie) => <MoviePoster movie={movie} key={movie._id} />);
+          .map((movie) => (
+            <MoviePosterAdmin
+              movie={movie}
+              key={movie._id}
+              moviesInDbId={this.state.moviesInDbId}
+              removeMovie={this.removeMovie}
+              addMovie={this.addMovie}
+            />
+          ));
       case "default":
         return this.state.movies.filter((movie) => (
-          <MoviePoster movie={movie} key={movie._id} />
+          <MoviePosterAdmin
+            movie={movie}
+            key={movie._id}
+            moviesInDbId={this.state.moviesInDbId}
+            removeMovie={this.removeMovie}
+            addMovie={this.addMovie}
+          />
         ));
     }
   };
@@ -98,7 +147,7 @@ export class MoviesList extends Component {
   render() {
     return (
       <div>
-        <div className="flex justify-center justify-evenly mb-8 mt-10">
+        <div className="flex justify-center justify-evenly mb-14 mt-6">
           <div className="relative inline-flex">
             <svg
               className="w-2 h-2 absolute top-0 right-0 m-4 pointer-events-none"
@@ -196,15 +245,18 @@ export class MoviesList extends Component {
             Reset Filters
           </button>
         </div>
-        <h1 className="font-fira my-2 ml-3 text-xl text-yellow-300 overflow-hidden">
-          Showcased movies
-        </h1>
 
         <div className="flex flex-wrap mb-5">
           {this.state.select !== null
             ? this.selectRender(this.state.select)
             : this.state.movies.map((movie) => (
-                <MoviePoster movie={movie} key={movie._id} />
+                <MoviePosterAdmin
+                  movie={movie}
+                  key={movie._id}
+                  moviesInDbId={this.state.moviesInDbId}
+                  removeMovie={this.removeMovie}
+                  addMovie={this.addMovie}
+                />
               ))}
         </div>
       </div>
@@ -212,4 +264,4 @@ export class MoviesList extends Component {
   }
 }
 
-export default MoviesList;
+export default MoviesListAdmin;
