@@ -71,13 +71,6 @@ const Profile = ({ user }) => {
                 ) : (
                     <div></div>
                 )}
-                {/* <Link href="/users/profile/edit">
-                    <a
-                        className="rounded bg-yellow-300 text-gray-900 py-1 px-4 hover:bg-gray-900 hover:text-yellow-300 border border-4 border-yellow-300"
-                    >
-                        Edit Profile
-                    </a>
-                </Link> */}
             </div>
         </div>
     )
