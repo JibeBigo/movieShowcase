@@ -3,11 +3,13 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Comments from "../../components/comments/Comments";
 import StarsRating from "../../components/movies/StarsRating";
+import auth0 from "../../utils/auth0";
 
-export default function Movie() {
+export default function Movie({user}) {
   const router = useRouter();
   const [movie, setMovie] = useState(null);
   const id = router.query.id;
+
 
   const getMovieFromId = async () => {
     const res = await fetch(`http://localhost:3000/api/movies/${id}`);
@@ -19,6 +21,7 @@ export default function Movie() {
     if (id) {
       getMovieFromId();
     }
+
   }, [id]);
 
   return movie ? (
@@ -66,9 +69,9 @@ export default function Movie() {
                   {movie.title}
                 </div>
                 <StarsRating
-                  movie={movie}
-                  getMovieFromId={getMovieFromId}
-                ></StarsRating>
+    movie={movie}
+    getMovieFromId={getMovieFromId}
+    />
               </div>
               <h1 className="font-fira my-2 text-xl text-yellow-300">
                 Synopsis
@@ -111,11 +114,21 @@ export default function Movie() {
             </div>
           </div>
           {/*  COMMENTS RENDERING */}
-          <Comments movieId={id} />
+          <Comments movieId={id} user={user}/>
         </div>
       </div>
     </div>
   ) : (
     <div> Loading </div>
   );
+}
+
+export async function getServerSideProps(context) {
+    const session = await auth0.getSession(context.req);
+
+    return {
+        props: {
+            user: session?.user || null,
+        },
+    };
 }

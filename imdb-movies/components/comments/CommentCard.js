@@ -28,7 +28,6 @@ const CommentCard = (props) => {
     }
 
     useEffect(() => {
-        // console.log(getServerSideProps())
     }, [])
 
     return (
@@ -46,10 +45,8 @@ const CommentCard = (props) => {
                     src="https://cdn1.iconfinder.com/data/icons/technology-devices-2/100/Profile-512.png"
                   />
                   <h3 className="text-purple-600 font-semibold text-lg text-center md:text-left ">{comment.user[0].username}</h3>
-                  {/*<h3 className="text-yellow-400 font-fira text-lg text-center md:text-left">*/}
-                  {/*  Username*/}
-                  {/*</h3>*/}
                 </div>
+                  { comment.user_id === props.user.userMongo[0]._id ? (
                 <div className="flex items-center">
                   <svg
                     onClick={handleDelete}
@@ -78,6 +75,8 @@ const CommentCard = (props) => {
                     <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                   </svg>
                 </div>
+                      ) : (<div/>)
+                  }
               </div>
               <p className="text-white text-lg text-center md:text-left ml-12 mt-2">
                 {comment.comment}

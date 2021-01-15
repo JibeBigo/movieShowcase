@@ -44,7 +44,7 @@ export default function Home({ user }) {
 
   return (
     <div className="mx-2 md:mx-10 lg:mx-44 mt-5">
-      <MoviesList user={user}></MoviesList>
+      <MoviesList user={user}/>
     </div>
   );
 }

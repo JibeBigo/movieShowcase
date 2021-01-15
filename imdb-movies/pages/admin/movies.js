@@ -18,8 +18,8 @@ export default function Movies({ user }) {
           Showcased movies
         </a>
       </div>
-      <MoviesSearch></MoviesSearch>
-      <PopularMoviesList></PopularMoviesList>
+      <MoviesSearch/>
+      <PopularMoviesList/>
     </div>
   );
 }
