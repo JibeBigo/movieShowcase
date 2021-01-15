@@ -52,10 +52,10 @@ export class MoviePoster extends Component {
   componentDidMount = async () => {
       if (this.props.user) {
       await this.getUserMongoDB();
-          // console.log(this.state.userMongo)
-          // return;
+      if (this.state.userMongo) {
       if (this.state.userMongo[0].favorite_movies.includes(this.props.movie._id)) {
           this.setState({fillColor: "#db2777"})
+      }
       }
       }
   }

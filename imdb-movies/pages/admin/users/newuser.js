@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import auth0 from '../../../utils/auth0';
 
-const NewUser = ({ userAuth }) => {
+const NewUser = ({ user }) => {
     const [form, setForm] = useState({ username: '', email: '', password: ''});
-    const [user, setUser] = useState({ is_admin: false, id_auth0: ''});
+    const [userAuth, setUserAuth] = useState({ is_admin: false, id_auth0: ''});
     const [rqAuth0, setRqAuth0] = useState(false);
     const router = useRouter();
 
@@ -16,7 +16,7 @@ const NewUser = ({ userAuth }) => {
     }
 
     const onChangeAdmin= (e) => {
-        setUser(prevState => ({
+        setUserAuth(prevState => ({
             is_admin: !prevState.is_admin
         }));
     }
@@ -35,7 +35,7 @@ const NewUser = ({ userAuth }) => {
                 email: form.email,
                 password: form.password,
                 app_metadata: {
-                    is_admin: user.is_admin
+                    is_admin: userAuth.is_admin
                 }
             })
         }).then(res => res.json())
@@ -49,7 +49,7 @@ const NewUser = ({ userAuth }) => {
                 body: JSON.stringify({
                     username: form.username,
                     email: form.email,
-                    is_admin: user.is_admin,
+                    is_admin: userAuth.is_admin,
                     id_auth0: res.user_id
                 })
             })
@@ -95,14 +95,14 @@ const NewUser = ({ userAuth }) => {
                             onChange={onChange}
                         /><br/>
 
-                        { user.is_admin == true ? (
+                        { userAuth.is_admin == true ? (
                             <div>
-                                <input defaultChecked={true} id="admin"  name="admin" type="checkbox" value={user.is_admin} onChange={onChangeAdmin} />
+                                <input defaultChecked={true} id="admin"  name="admin" type="checkbox" value={userAuth.is_admin} onChange={onChangeAdmin} />
                                 <label className="text-yellow-300 ml-2">Admin</label><br/>
                             </div>
                         ):(
                             <div>
-                                <input id="admin" name="admin" type="checkbox" value={user.is_admin} onChange={onChangeAdmin} />
+                                <input id="admin" name="admin" type="checkbox" value={userAuth.is_admin} onChange={onChangeAdmin} />
                                 <label className="text-yellow-300 ml-2">Admin</label><br/>
                             </div>
                         )}
@@ -123,7 +123,7 @@ export async function getServerSideProps(context) {
     
     return {
         props: {
-            userAuth: session?.user || null,
+            user: session?.user || null,
         },
     };
 }

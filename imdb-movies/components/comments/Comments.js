@@ -50,11 +50,10 @@ const Comments = (props) => {
 
 
     useEffect(() => {
-         fetchComments();
-         if(props.user) {
-         getUserMongoDB();
-         }
-
+        (async () => {
+            await fetchComments()
+            await getUserMongoDB()
+        })()
     }, [])
 
     return comments !== null ? (
@@ -100,7 +99,9 @@ const Comments = (props) => {
               movieId={props.movieId}
               key={comment._id}
               fetchComments={fetchComments}
-              user={userMongo}
+              user={props.user}
+              userMongo={userMongo}
+
             />
           ))}
         </div>

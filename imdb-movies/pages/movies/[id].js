@@ -10,7 +10,6 @@ export default function Movie({user}) {
   const [movie, setMovie] = useState(null);
   const id = router.query.id;
 
-
   const getMovieFromId = async () => {
     const res = await fetch(`http://localhost:3000/api/movies/${id}`);
     const movie = await res.json();
@@ -28,7 +27,7 @@ export default function Movie({user}) {
     <div>
       <div className="flex items-start">
         <Link href="/">
-          <div className=" flex flex-none m-4 p-2 cursor-pointer text-yellow-300 bg-gray-600 rounded-md border border-yellow-300 hover:bg-gray-900">
+          <div className="hidden sm:inline-flex flex flex-none m-4 p-2 cursor-pointer text-yellow-300 bg-gray-600 rounded-md border border-yellow-300 hover:bg-gray-900">
             <svg
               className="h-6 w-6 text-yellow-300 mr-2"
               xmlns="http://www.w3.org/2000/svg"
@@ -46,7 +45,7 @@ export default function Movie({user}) {
             Showcased movies
           </div>
         </Link>
-        <div className="flex-col justify-start items-center mr-44">
+        <div className="flex-col justify-start items-center sm:mr-44">
           <div className="flex justify-center" style={{ height: "350px" }}>
             <img
               src={
