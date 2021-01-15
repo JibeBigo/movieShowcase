@@ -31,19 +31,18 @@ export default async (request, response) => {
                 // const userDB = await User.findOne({ "email": request.body.email });
                 console.log(typeof(request.body))
                 // let body = JSON.parse(request.body)
-                console.log("LOL")
                 console.log(request.body)
-                
 
                     const updateUser = await User.findByIdAndUpdate(
                         id, request.body
                     );
+                const updatedUser = await User.findById(id)
                 
-                if (!updateUser) {
+                if (!updatedUser) {
                     return response.status(400).json({ success: false, message: 'User does not exist.' });
                 }
 
-                response.status(200).json({ success: true, data: updateUser });
+                response.status(200).json({ success: true, data: updatedUser });
             } catch (error) {
                 response.status(400).json({ success: false, data: error });
             }

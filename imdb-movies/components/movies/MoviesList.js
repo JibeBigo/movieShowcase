@@ -2,7 +2,10 @@ import React, { Component } from "react";
 import MoviePoster from "./MoviePoster";
 
 export class MoviesList extends Component {
-  state = {
+   constructor(props) {
+       super(props);
+   }
+    state = {
     movies: [],
     select: null,
     genreArray: [],
@@ -63,13 +66,13 @@ export class MoviesList extends Component {
     selectRender = (select) => {
         switch(select.menu) {
             case 'genres':
-                return this.state.movies.filter(movie => movie.genres.includes(select.value)).map((movie) => (<MoviePoster movie={movie} key={movie._id}/>) )
+                return this.state.movies.filter(movie => movie.genres.includes(select.value)).map((movie) => (<MoviePoster user={this.props.user} movie={movie} key={movie._id}/>) )
             case 'year':
-                return this.state.movies.filter(movie => movie.release_date.includes(select.value)).map((movie) => (<MoviePoster movie={movie} key={movie._id}/>) )
+                return this.state.movies.filter(movie => movie.release_date.includes(select.value)).map((movie) => (<MoviePoster user={this.props.user} movie={movie} key={movie._id}/>) )
             case 'director':
-                return this.state.movies.filter(movie => movie.director.includes(select.value)).map((movie) => (<MoviePoster movie={movie} key={movie._id}/>) )
+                return this.state.movies.filter(movie => movie.director.includes(select.value)).map((movie) => (<MoviePoster user={this.props.user} movie={movie} key={movie._id}/>) )
             case 'default':
-                return this.state.movies.filter((movie) => (<MoviePoster movie={movie} key={movie._id}/>))
+                return this.state.movies.filter((movie) => (<MoviePoster user={this.props.user} movie={movie} key={movie._id}/>))
         }
     }
 
@@ -200,7 +203,7 @@ export class MoviesList extends Component {
               {this.state.select !== null
                 ? this.selectRender(this.state.select)
                 : this.state.movies.map((movie) => (
-                    <MoviePoster movie={movie} key={movie._id} />
+                    <MoviePoster user={this.props.user} movie={movie} key={movie._id} />
                   ))}
             </div>
           </div>

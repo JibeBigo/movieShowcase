@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import Link from "next/link";
-import auth0 from "../../utils/auth0";
 
 export class MoviePoster extends Component {
   constructor(props) {
     super(props)
       this.state = {
-        userMongo: ''
+        userMongo: '',
+        fillColor: 'none'
       }
   }
 
@@ -21,35 +21,43 @@ export class MoviePoster extends Component {
       e.stopPropagation()
 
      let body = await this.generateBody();
-     let r = await fetch(`http://localhost:3000/api/users/${body.user._id}`, {
+     await fetch(`http://localhost:3000/api/users/${body.user._id}`, {
           method: 'PUT',
           accept: 'application/json',
+          headers: {
+             'Content-Type': 'application/json'
+         },
           body: JSON.stringify({
-                  username: body.user.username,
-                  email: body.user.email,
                   favorite_movies: body.favorites
           })
       });
-      console.log(await r.json())
-
   };
+  
   generateBody = async () => {
       await this.getUserMongoDB();
-      let user = this.state.userMongo[0]
-      let favorites = user.favorite_movies;
+      let favorites = this.state.userMongo[0].favorite_movies;
       if (favorites.includes(this.props.movie._id)) {
           favorites.splice(favorites.indexOf(this.props.movie._id), 1)
+          this.setState({fillColor: "none"})
       } else {
           favorites.push(this.props.movie._id)
+          this.setState({fillColor: "#db2777"})
       }
       return {
-          user: user,
+          user: this.state.userMongo[0],
           favorites: favorites
       }
   }
 
+  componentDidMount = async () => {
+      await this.getUserMongoDB();
+      if (this.state.userMongo[0].favorite_movies.includes(this.props.movie._id)) {
+          this.setState({fillColor: "#db2777"})
+      }
+  }
 
-  render() {
+
+    render() {
     return (
       <Link href={`/movies/${this.props.movie._id}`}>
         <div className="mx-2 w-44 cursor-pointer relative">
@@ -57,6 +65,7 @@ export class MoviePoster extends Component {
             className="rounded-md shadow-none hover:shadow-white"
             style={{ height: "265px" }}
             src={"https://image.tmdb.org/t/p/w200/" + this.props.movie.poster}
+            alt={this.props.movie.title}
           />
           <button
               onClick={e => this.handleFavorite(e)}
@@ -64,7 +73,7 @@ export class MoviePoster extends Component {
             <svg
               className="h-8 w-8 text-pink-600 hover:text-pink-300"
               xmlns="http://www.w3.org/2000/svg"
-              fill="none"
+              fill={this.state.fillColor}
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
