@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import auth0 from "../../../utils/auth0";
 
-export default function Movie() {
+export default function Movie({ user }) {
   const router = useRouter();
   const [form, setForm] = useState({
     title: "",
@@ -61,7 +62,7 @@ export default function Movie() {
     router.push("/admin/showcasedMovies");
   };
 
-  return movie ? (
+  return movie && user['http://is_admin/app_metadata'].is_admin ? (
     <div>
       <div className="flex items-start">
         <Link href="/admin/showcasedMovies">
@@ -123,6 +124,7 @@ export default function Movie() {
             <div className="text-white px-4 w-full">
               <form
                 onSubmit={(e) => onSubmit(e)}
+                onChange={(e) => handleChange(e)}
                 className="flex-col space-y-4 w-full"
               >
                 <div className="flex-col w-full">
@@ -133,7 +135,6 @@ export default function Movie() {
                     name="title"
                     type="text"
                     value={form.title}
-                    onChange={(e) => handleChange(e)}
                   />
                 </div>
                 <div>
@@ -144,7 +145,6 @@ export default function Movie() {
                     name="overview"
                     type="text"
                     value={form.overview}
-                    onChange={(e) => handleChange(e)}
                   />
                 </div>
                 <div>
@@ -155,7 +155,6 @@ export default function Movie() {
                     name="release_date"
                     type="text"
                     value={form.release_date}
-                    onChange={(e) => handleChange(e)}
                   />
                 </div>
                 <div>
@@ -166,7 +165,6 @@ export default function Movie() {
                     name="genres"
                     type="text"
                     value={form.genres}
-                    onChange={(e) => handleChange(e)}
                   />
                 </div>
                 <div>
@@ -177,7 +175,6 @@ export default function Movie() {
                     name="actors"
                     type="text"
                     value={form.actors}
-                    onChange={(e) => handleChange(e)}
                   />
                 </div>
                 <div>
@@ -188,7 +185,6 @@ export default function Movie() {
                     name="director"
                     type="text"
                     value={form.director}
-                    onChange={(e) => handleChange(e)}
                   />
                   <button className="my-3 float-right px-2 py-1 text-yellow-300 bg-gray-600 rounded-md border border-yellow-300 hover:bg-gray-900">
                     Submit
@@ -201,6 +197,16 @@ export default function Movie() {
       </div>
     </div>
   ) : (
-    <div> Loading </div>
+    <div className="text-white ml-4"> Restricted Access </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  const session = await auth0.getSession(context.req);
+
+  return {
+    props: {
+      user: session?.user || null,
+    },
+  };
 }

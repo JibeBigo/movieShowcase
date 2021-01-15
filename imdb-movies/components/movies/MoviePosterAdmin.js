@@ -51,25 +51,29 @@ export class MoviePosterAdmin extends Component {
       <div className="mx-2 w-44 relative">
         {this.props.moviesInDbId.includes(this.props.movie.id.toString()) ? (
           <div>
-            <a
-              className="absolute top-0 right-8 focus:outline-none"
-              href={`/admin/movies/${this.props.movie._id}`}
-            >
-              <svg
-                className="h-8 w-8 text-yellow-400"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+            {window.location.href !== "http://localhost:3000/admin/movies" ? (
+              <a
+                className="absolute top-0 right-8 focus:outline-none"
+                href={`/admin/movies/${this.props.movie._id}`}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                />
-              </svg>
-            </a>
+                <svg
+                  className="h-8 w-8 text-yellow-400"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                  />
+                </svg>
+              </a>
+            ) : (
+              ""
+            )}
             <button
               className="absolute top-0 right-0 focus:outline-none"
               onClick={() => this.deleteMovieFromShowcase(this.props.movie.id)}
