@@ -17,15 +17,33 @@ const UserAdminPanel = ({ user }) => {
     },[])
 
     const handleDelete = async (e) => {
-        let id = e.target.value;
-        await fetch(`https://${process.env.AUTH0_DOMAIN}/api/v2/users/${id}`, {
-            method: 'DELETE',
-            headers: {
-                "Content-Type": "application/json; charset=utf-8",
-                "Authorization": "Bearer " + process.env.AUTH0_BEARER_TOKEN
-            }
+        const idAuth0 = e.target.value;
+        let idMongo;
+
+        await fetch('/api/users', {
+            method: 'GET'
+        }).then(body => body.json())
+        .then(body => idMongo = body.data.filter(user => user.id_auth0 === idAuth0) )
+        // console.log(idMongo)
+        .then(async () => {
+            await fetch(`https://${process.env.AUTH0_DOMAIN}/api/v2/users/${idAuth0}`, {
+                method: 'DELETE',
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8",
+                    "Authorization": "Bearer " + process.env.AUTH0_BEARER_TOKEN
+                }
+            })
         })
-        const newArr = allUsers.filter((user) => user.user_id != id);
+        .then( async () => {
+            await fetch(`/api/users/${idMongo[0]._id}`, {
+                method: 'DELETE',
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8",
+                }
+            })
+        })
+
+        const newArr = allUsers.filter((user) => user.user_id != idAuth0);
         setAllUsers(newArr);
     }
 
