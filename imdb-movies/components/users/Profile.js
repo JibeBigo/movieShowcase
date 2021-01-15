@@ -60,13 +60,24 @@ const Profile = ({ user }) => {
             <div className="flex justify-between">
                 <h1 className="text-white">Welcome, <span className="text-yellow-300">{userUpd.nickname}</span></h1>
                 <p> {userUpd.name} </p>
-                <Link href="/users/profile/edit">
+                { user.sub.startsWith('auth') ? (
+                    <Link href="/users/profile/edit">
+                        <a
+                            className="rounded bg-yellow-300 text-gray-900 py-1 px-4 hover:bg-gray-900 hover:text-yellow-300 border border-4 border-yellow-300"
+                        >
+                            Edit Profile
+                        </a>
+                    </Link>
+                ) : (
+                    <div></div>
+                )}
+                {/* <Link href="/users/profile/edit">
                     <a
                         className="rounded bg-yellow-300 text-gray-900 py-1 px-4 hover:bg-gray-900 hover:text-yellow-300 border border-4 border-yellow-300"
                     >
                         Edit Profile
                     </a>
-                </Link>
+                </Link> */}
             </div>
         </div>
     )
