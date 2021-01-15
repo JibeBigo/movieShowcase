@@ -59,7 +59,7 @@ const NewUser = ({ user }) => {
     }
 
 
-    return (
+    return user['http://is_admin/app_metadata'].is_admin ? (
         <div className="container mx-auto mt-10 p-4 rounded bg-gray-900 border border-yellow-300 w-1/2 flex flex-col items-center justify-center">
                 <h1 className="text-yellow-300 mb-4">Create New User</h1>
                 <div>
@@ -113,7 +113,9 @@ const NewUser = ({ user }) => {
                 </form>
             </div>
         </div>
-    )
+    ) : (
+        <div className="text-white ml-4"> Restricted Access </div>
+    );
 }
 
 export default NewUser;

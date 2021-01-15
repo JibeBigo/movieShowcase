@@ -1,12 +1,24 @@
 import auth0 from '../../../utils/auth0';
 import ProfileEdit from '../../../components/users/ProfileEdit';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 const EditProfile = ({ user }) => {
-    return (
+    const router = useRouter();
+
+    useEffect( async () => {
+        if (!user) {
+            router.push('/api/auth/login')
+        }
+    }, [])
+
+    return user ? (
         <div>
             <ProfileEdit user={user}></ProfileEdit>
         </div>
-    )
+    ) : (
+        <div></div>
+    );
 }
 
 export default EditProfile;
