@@ -3,9 +3,9 @@ import { useRouter } from 'next/router';
 import auth0 from '../../../utils/auth0';
 // import ProfileEdit from '../../../components/users/ProfileEdit';
 
-const EditUser = ({ userAuth }) => {
+const EditUser = ({ user }) => {
     const [form, setForm] = useState({ username: '', email: '', password: ''});
-    const [user, setUser] = useState({ is_admin: '' });
+    const [userAuth, setUserAuth] = useState({ is_admin: '' });
     const [userMongo, setUserMongo] = useState([]);
     const router = useRouter();
     const userId = router.query.id;    
@@ -20,7 +20,7 @@ const EditUser = ({ userAuth }) => {
                 "Authorization": "Bearer " + process.env.AUTH0_BEARER_TOKEN
                 }
             }).then(res => res.json())
-            .then(res => {setForm({username: res.nickname, email: res.name}), setUser({is_admin: res.app_metadata.is_admin})})
+            .then(res => {setForm({username: res.nickname, email: res.name}), setUserAuth({is_admin: res.app_metadata.is_admin})})
     }, [])
 
     const getUserMongoDB = async () =>{
@@ -38,7 +38,7 @@ const EditUser = ({ userAuth }) => {
     }
 
     const onChangeAdmin = async (e) => {
-        await setUser( prevState => ({
+        await setUserAuth( prevState => ({
             is_admin: !prevState.is_admin
         }));
         
@@ -65,7 +65,7 @@ const EditUser = ({ userAuth }) => {
                         // email: form.email,
                         password: form.password,
                         app_metadata: {
-                            is_admin: user.is_admin
+                            is_admin: userAuth.is_admin
                         }
                     })
                 }).then(res => res.json())
@@ -79,7 +79,7 @@ const EditUser = ({ userAuth }) => {
                     body: JSON.stringify({
                         username: form.username,
                         email: form.email,
-                        is_admin: user.is_admin,
+                        is_admin: userAuth.is_admin,
                     })
                 })
                 
@@ -96,7 +96,7 @@ const EditUser = ({ userAuth }) => {
                         name: form.email,
                         email: form.email,
                         app_metadata: {
-                            is_admin: user.is_admin
+                            is_admin: userAuth.is_admin
                         }
                     })
                 }).then(res => res.json())
@@ -110,7 +110,7 @@ const EditUser = ({ userAuth }) => {
                     body: JSON.stringify({
                         username: form.username,
                         email: form.email,
-                        is_admin: user.is_admin,
+                        is_admin: userAuth.is_admin,
                     })
                 })
                 
@@ -158,14 +158,14 @@ const EditUser = ({ userAuth }) => {
                             onChange={onChange}
                         /><br/>
 
-                        { user.is_admin == true ? (
+                        { userAuth.is_admin == true ? (
                             <div>
-                                <input checked id="admin"  name="admin" type="checkbox" value={user.is_admin} onChange={onChangeAdmin} />
+                                <input checked id="admin"  name="admin" type="checkbox" value={userAuth.is_admin} onChange={onChangeAdmin} />
                                 <label className="text-yellow-300 ml-2">Admin</label><br/>
                             </div>
                         ):(
                             <div>
-                                <input id="admin" name="admin" type="checkbox" value={user.is_admin} onChange={onChangeAdmin} />
+                                <input id="admin" name="admin" type="checkbox" value={userAuth.is_admin} onChange={onChangeAdmin} />
                                 <label className="text-yellow-300 ml-2">Admin</label><br/>
                             </div>
                         )}
