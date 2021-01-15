@@ -70,6 +70,7 @@ export default function Movie({user}) {
                 <StarsRating
     movie={movie}
     getMovieFromId={getMovieFromId}
+    user={user}
     />
               </div>
               <h1 className="font-fira my-2 text-xl text-yellow-300">
@@ -88,8 +89,8 @@ export default function Movie({user}) {
                     Genres
                   </h1>
                   <div className="text-white font-mono">
-                    {movie.genres.map((genre) => {
-                      return <p>{genre}</p>;
+                    {movie.genres.map((genre, index) => {
+                      return <p key={index}>{genre}</p>;
                     })}
                   </div>
                 </div>
@@ -104,8 +105,8 @@ export default function Movie({user}) {
                     Main Actors
                   </h1>
                   <div className="text-white font-mono">
-                    {movie.actors.map((actor) => {
-                      return <p>{actor}</p>;
+                    {movie.actors.map((actor, index) => {
+                      return <p key={index}>{actor}</p>;
                     })}
                   </div>
                 </div>
