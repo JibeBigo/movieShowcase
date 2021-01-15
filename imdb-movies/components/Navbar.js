@@ -7,7 +7,7 @@ const Navbar = ({ user }) => {
       <nav>
         <div className="flex justify-between items-center bg-gray-900 w-full h-16 px-4">
           <div className="text-2xl font-bold text-yellow-300 md:text-3xl font-squada">
-            <a href="/">Les films du plat pays</a>
+            <a href="/">We're Movie IN</a>
           </div>
           {/* {console.log(user.props.user.sub)} */}
           <div className="flex">
