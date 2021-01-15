@@ -56,7 +56,7 @@ export default function StarsRating(props) {
               onMouseLeave={() => setHoverState(0)}
               onClick={() => setRating(index+1)}
               className={`h-6 w-6 text-gray-300 ml-2 hover:text-yellow-400 ${
-                (hoverState || rating) >= index
+                (hoverState || rating) > index
                   ? "text-yellow-400"
                   : "text-grey-300"
               }`}
