@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 
 const CommentCard = (props) => {
 
@@ -27,6 +27,10 @@ const CommentCard = (props) => {
         props.fetchComments();
     }
 
+    useEffect(() => {
+        // console.log(getServerSideProps())
+    }, [])
+
     return (
       <div>
         {props.movieId === props.comment.movie_id && (
@@ -41,11 +45,10 @@ const CommentCard = (props) => {
                     className="rounded-full w-10 h-10 mr-4 shadow-lg"
                     src="https://cdn1.iconfinder.com/data/icons/technology-devices-2/100/Profile-512.png"
                   />
-                  {/*TODO le bug semble venir du changement de la DB, à vérifier après intégration*/}
-                  {/*<h3 className="text-purple-600 font-semibold text-lg text-center md:text-left ">{comment.user[0].username}</h3>*/}
-                  <h3 className="text-yellow-400 font-fira text-lg text-center md:text-left">
-                    Username
-                  </h3>
+                  <h3 className="text-purple-600 font-semibold text-lg text-center md:text-left ">{comment.user[0].username}</h3>
+                  {/*<h3 className="text-yellow-400 font-fira text-lg text-center md:text-left">*/}
+                  {/*  Username*/}
+                  {/*</h3>*/}
                 </div>
                 <div className="flex items-center">
                   <svg

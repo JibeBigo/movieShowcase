@@ -44,7 +44,7 @@ export default function Home({ user }) {
 
   return (
     <div className="mx-44 mt-5">
-      <MoviesList></MoviesList>
+      <MoviesList user={user}/>
     </div>
   );
 }

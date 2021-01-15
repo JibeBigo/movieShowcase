@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from "react";
 import CommentCard from "./CommentCard";
+import auth0 from "../../utils/auth0";
 
 const Comments = (props) => {
 
     const [comments, setComments] = useState(null);
     const [newComment, setNewComment] = useState(null);
+    const [userMongo, setUserMongo] = useState([]);
 
     const fetchComments = () => {
         fetch(
@@ -15,8 +17,20 @@ const Comments = (props) => {
 
     };
 
+    const  getUserMongoDB = async() => {
+        if(!props.user) {
+            return;
+        }
+        await fetch('/api/users', {
+            method: 'GET'
+        }).then(body => body.json())
+            .then(body => setUserMongo({ userMongo: body.data.filter(user => user.id_auth0 === props.user.sub)}))
+    };
+
     const addNewComment = async () => {
         document.getElementById("input").value = "";
+
+
 
         await fetch(
             "http://localhost:3000/api/comments", {
@@ -26,7 +40,7 @@ const Comments = (props) => {
                 },
                 body: JSON.stringify({
                     comment : newComment,
-                    user_id : "5ffb0af4a8303d29f747504b",
+                    user_id : userMongo.userMongo[0]._id,
                     movie_id: props.movieId
                 }),
             },
@@ -37,6 +51,7 @@ const Comments = (props) => {
 
     useEffect(() => {
         fetchComments();
+        getUserMongoDB();
     }, [])
 
     return comments !== null ? (
