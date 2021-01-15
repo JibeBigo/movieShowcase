@@ -71,28 +71,29 @@ export class MoviePoster extends Component {
             src={"https://image.tmdb.org/t/p/w200/" + this.props.movie.poster}
             alt={this.props.movie.title}
           />
-            { this.props.user ? (
-          <button
-              onClick={e => this.handleFavorite(e)}
-              className="absolute top-0 right-0 ">
-            <svg
-              className="h-8 w-8 text-pink-600 hover:text-pink-300"
-              xmlns="http://www.w3.org/2000/svg"
-              fill={this.state.fillColor}
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+          {this.props.user ? (
+            <button
+              onClick={(e) => this.handleFavorite(e)}
+              className="absolute top-0 right-0 focus:outline-none"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-              />
-            </svg>
-          </button>) : (
-              <div/>
-            )
-            }
+              <svg
+                className="h-8 w-8 text-pink-600 hover:text-pink-300 "
+                xmlns="http://www.w3.org/2000/svg"
+                fill={this.state.fillColor}
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                />
+              </svg>
+            </button>
+          ) : (
+            <div />
+          )}
           <div className="font-contrail text-white">
             {this.props.movie ? this.props.movie.title : ""}
           </div>
