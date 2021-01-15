@@ -1,6 +1,5 @@
 import dbConnect from '../../../utils/dbConnect';
 import User from '../../../models/User';
-// const bcrypt = require('bcryptjs');
 
 
 dbConnect();
@@ -31,21 +30,23 @@ export default async (request, response) => {
                 // const newPwdHashed = await bcrypt.hash(request.body.password, 10);
 
                 // const userDB = await User.findOne({ "email": request.body.email });
-
-                console.log(request.body.email)
-                console.log(request.body.username)
-                console.log(request.body._id)
-
-
+                let body = JSON.parse(request.body)
+                console.log("LOL")
+                console.log(body)
+                // console.log(body.username)
+                // console.log(body.email)
+                // console.log(body.favorite_movies)
+                // return;
 
                 // if (!userDB) {
                     const updateUser = await User.findByIdAndUpdate(
-                        request.body._id,
-                        {
-                            username: request.body.username,
-                            email: request.body.email,
-                            // password: newPwdHashed
-                        },
+                        id, body
+                        // {
+                        //     username: body.username,
+                        //     email: body.email,
+                        //     favorite_movies: body.favorite_movies,
+                        // //     // password: newPwdHashed
+                        // },
                         // {
                         // new: true,
                         // runValidators: true
@@ -54,6 +55,7 @@ export default async (request, response) => {
                 //     return response.status(400).json({ success: false, message: "Email already exists." })
                 // }
 
+                // return response.status(413).json({success: 'teapot', message: updateUser})
                 if (!updateUser) {
                     return response.status(400).json({ success: false, message: 'User does not exist.' });
                 }
