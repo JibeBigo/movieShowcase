@@ -50,9 +50,13 @@ export class MoviePoster extends Component {
   }
 
   componentDidMount = async () => {
+      if (this.props.user) {
       await this.getUserMongoDB();
+      if (this.state.userMongo) {
       if (this.state.userMongo[0].favorite_movies.includes(this.props.movie._id)) {
           this.setState({fillColor: "#db2777"})
+      }
+      }
       }
   }
 
@@ -67,6 +71,7 @@ export class MoviePoster extends Component {
             src={"https://image.tmdb.org/t/p/w200/" + this.props.movie.poster}
             alt={this.props.movie.title}
           />
+            { this.props.user ? (
           <button
               onClick={e => this.handleFavorite(e)}
               className="absolute top-0 right-0 ">
@@ -84,7 +89,10 @@ export class MoviePoster extends Component {
                 d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
               />
             </svg>
-          </button>
+          </button>) : (
+              <div/>
+            )
+            }
           <div className="font-contrail text-white">
             {this.props.movie ? this.props.movie.title : ""}
           </div>

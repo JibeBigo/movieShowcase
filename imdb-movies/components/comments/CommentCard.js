@@ -4,12 +4,26 @@ const CommentCard = (props) => {
 
     const [edit, showEdit] = useState(false);
     const [input, setInput] = useState('');
+    const [userMongo, setUserMongo] = useState("nope");
+    const [id, setId] = useState(null);
+
     const comment = props.comment;
+    let mongoId = null;
 
     const handleDelete = async () => {
         await fetch(`http://localhost:3000/api/comments/${comment._id}`, {method: 'DELETE'})
         props.fetchComments();
     }
+
+    const  getUserMongoDB = async() => {
+        if(!props.user) {
+            return;
+        }
+        await fetch('/api/users', {
+            method: 'GET'
+        }).then(body => body.json())
+            .then(body => setUserMongo({ userMongo: body.data.filter(user => user.id_auth0 === props.user.sub)}))
+    };
 
     const handleEdit = async() => {
         const r = await fetch(`http://localhost:3000/api/comments/${comment._id}`, {
@@ -28,10 +42,10 @@ const CommentCard = (props) => {
     }
 
     useEffect(() => {
-        // console.log(getServerSideProps())
+        getUserMongoDB();
     }, [])
 
-    return (
+    return  (
       <div>
         {props.movieId === props.comment.movie_id && (
           <div className="max-w-full m-auto">
@@ -46,10 +60,11 @@ const CommentCard = (props) => {
                     src="https://cdn1.iconfinder.com/data/icons/technology-devices-2/100/Profile-512.png"
                   />
                   <h3 className="text-purple-600 font-semibold text-lg text-center md:text-left ">{comment.user[0].username}</h3>
-                  {/*<h3 className="text-yellow-400 font-fira text-lg text-center md:text-left">*/}
-                  {/*  Username*/}
-                  {/*</h3>*/}
                 </div>
+                  {/*{ id ? (*/}
+                  {userMongo !== "nope" ? (
+                      <div>
+                  { (comment.user_id === userMongo.userMongo[0]._id && userMongo !== "nope") ? (
                 <div className="flex items-center">
                   <svg
                     onClick={handleDelete}
@@ -78,6 +93,10 @@ const CommentCard = (props) => {
                     <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                   </svg>
                 </div>
+
+                      ) : (<div/>)
+                  }
+                      </div>) : (<div/>)}
               </div>
               <p className="text-white text-lg text-center md:text-left ml-12 mt-2">
                 {comment.comment}
@@ -135,7 +154,8 @@ const CommentCard = (props) => {
           </div>
         )}
       </div>
-    );
+    )
+
 
 }
 

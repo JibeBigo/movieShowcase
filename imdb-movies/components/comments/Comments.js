@@ -50,15 +50,18 @@ const Comments = (props) => {
 
 
     useEffect(() => {
-        fetchComments();
-        getUserMongoDB();
+        (async () => {
+            await fetchComments()
+            await getUserMongoDB()
+        })()
     }, [])
 
     return comments !== null ? (
       <div>
         <div className="flex w-full shadow-lg mt-4 mb-2">
           <div className="w-full  bg-gray-700 rounded-lg px-4">
-            <div className="flex flex-wrap -mx-3 mb-2">
+              { props.user ? (
+              <div className="flex flex-wrap -mx-3 mb-2">
               <h2 className="px-4 pt-1 text-white text-lg font-allerta">
                 Add a new comment
               </h2>
@@ -86,6 +89,7 @@ const Comments = (props) => {
                 </div>
               </div>
             </div>
+              ) : (<div/>)}
           </div>
         </div>
         <div className="flex flex-col-reverse">
@@ -95,6 +99,9 @@ const Comments = (props) => {
               movieId={props.movieId}
               key={comment._id}
               fetchComments={fetchComments}
+              user={props.user}
+              userMongo={userMongo}
+
             />
           ))}
         </div>
