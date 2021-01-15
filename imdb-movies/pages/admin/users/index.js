@@ -47,7 +47,7 @@ const UserAdminPanel = ({ user }) => {
         setAllUsers(newArr);
     }
 
-    return (
+    return user['http://is_admin/app_metadata'].is_admin ? (
         
         <div className="container mx-auto flex flex-col ">
             <Link href="/admin/users/newuser">
@@ -95,7 +95,9 @@ const UserAdminPanel = ({ user }) => {
                 </thead>
             </table>
         </div>
-    )
+    ) : (
+        <div className="text-white ml-4"> Restricted Access </div>
+    );
 
 }
 

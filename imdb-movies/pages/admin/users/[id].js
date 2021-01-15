@@ -13,7 +13,8 @@ const EditUser = ({ user }) => {
     useEffect(async () =>{
         getUserMongoDB();
 
-        await fetch(`https://${process.env.AUTH0_DOMAIN}/api/v2/users/${userId}`, {
+        if (user['http://is_admin/app_metadata'].is_admin === true) {
+            await fetch(`https://${process.env.AUTH0_DOMAIN}/api/v2/users/${userId}`, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
@@ -21,6 +22,15 @@ const EditUser = ({ user }) => {
                 }
             }).then(res => res.json())
             .then(res => {setForm({username: res.nickname, email: res.name}), setUserAuth({is_admin: res.app_metadata.is_admin})})
+        }
+        // await fetch(`https://${process.env.AUTH0_DOMAIN}/api/v2/users/${userId}`, {
+        //     method: 'GET',
+        //     headers: {
+        //         "Content-Type": "application/json; charset=utf-8",
+        //         "Authorization": "Bearer " + process.env.AUTH0_BEARER_TOKEN
+        //         }
+        //     }).then(res => res.json())
+        //     .then(res => {setForm({username: res.nickname, email: res.name}), setUserAuth({is_admin: res.app_metadata.is_admin})})
     }, [])
 
     const getUserMongoDB = async () =>{
@@ -122,7 +132,7 @@ const EditUser = ({ user }) => {
     }
 
 
-    return (
+    return user['http://is_admin/app_metadata'].is_admin ? (
         <div className="container mx-auto mt-10 p-4 rounded bg-gray-900 border border-yellow-300 w-1/2 flex flex-col items-center justify-center">
                 <h1 className="text-yellow-300 mb-4">Edit User</h1>
                 <div>
@@ -177,7 +187,9 @@ const EditUser = ({ user }) => {
                 </form>
             </div>
         </div>
-    )
+    ) : (
+        <div className="text-white ml-4"> Restricted Access </div>
+    );
     
 }
 
