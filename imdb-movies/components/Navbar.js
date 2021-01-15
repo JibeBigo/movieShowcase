@@ -14,20 +14,35 @@ const Navbar = ({ user }) => {
             {user.props.user ? (
               <div>
                 {/* <Link href='/users/[id]' as ={`/users/${user.props.user.sub}`}></Link> */}
-                <Link href="/admin/movies">
-                  <a className="mr-5 text-yellow-300">Admin</a>
-                </Link>
-                <Link href="/admin/users">
-                  <a className="mr-5 text-yellow-300">AdminUser</a>
-                </Link>
-                <Link href="/users/profile/profile">
-                  <a className="mr-5 text-yellow-300">Profile</a>
-                </Link>
-                <Link href="/api/auth/logout">
-                  <a className="rounded bg-yellow-300 text-gray-900 py-2 px-4 hover:bg-gray-900 hover:text-yellow-300 border border-4 border-yellow-300">
-                    Logout
-                  </a>
-                </Link>
+                { user.props.user['http://is_admin/app_metadata'].is_admin ? (
+                  <div> 
+                    <Link href="/admin/movies">
+                      <a className="mr-5 text-yellow-300">Admin</a>
+                    </Link>
+                    <Link href="/admin/users">
+                      <a className="mr-5 text-yellow-300">AdminUser</a>
+                    </Link>
+                    <Link href="/users/profile/profile">
+                      <a className="mr-5 text-yellow-300">Profile</a>
+                    </Link>
+                    <Link href="/api/auth/logout">
+                      <a className="rounded bg-yellow-300 text-gray-900 py-2 px-4 hover:bg-gray-900 hover:text-yellow-300 border border-4 border-yellow-300">
+                        Logout
+                      </a>
+                    </Link>
+                  </div>
+                  ) : ( 
+                    <div>
+                      <Link href="/users/profile/profile">
+                        <a className="mr-5 text-yellow-300">Profile</a>
+                      </Link>
+                      <Link href="/api/auth/logout">
+                        <a className="rounded bg-yellow-300 text-gray-900 py-2 px-4 hover:bg-gray-900 hover:text-yellow-300 border border-4 border-yellow-300">
+                          Logout
+                        </a>
+                      </Link>
+                    </div>
+                  )}
               </div>
             ) : (
               <a
