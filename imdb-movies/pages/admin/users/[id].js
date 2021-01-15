@@ -77,10 +77,9 @@ const EditUser = ({ userAuth }) => {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        _id: userMongo[0]._id,
                         username: form.username,
                         email: form.email,
-                        is_admin: user.is_admin
+                        is_admin: user.is_admin,
                     })
                 })
                 
@@ -109,10 +108,9 @@ const EditUser = ({ userAuth }) => {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        _id: userMongo[0]._id,
                         username: form.username,
                         email: form.email,
-                        is_admin: user.is_admin
+                        is_admin: user.is_admin,
                     })
                 })
                 

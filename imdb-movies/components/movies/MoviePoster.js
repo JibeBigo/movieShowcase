@@ -1,10 +1,53 @@
 import React, { Component } from "react";
 import Link from "next/link";
+import auth0 from "../../utils/auth0";
 
 export class MoviePoster extends Component {
   constructor(props) {
-    super(props);
+    super(props)
+      this.state = {
+        userMongo: ''
+      }
   }
+
+  async getUserMongoDB() {
+        await fetch('/api/users', {
+            method: 'GET'
+        }).then(body => body.json())
+            .then(body => this.setState({ userMongo: body.data.filter(user => user.id_auth0 === this.props.user.sub)}))
+    }
+
+  handleFavorite = async (e) => {
+      e.stopPropagation()
+
+     let body = await this.generateBody();
+     let r = await fetch(`http://localhost:3000/api/users/${body.user._id}`, {
+          method: 'PUT',
+          accept: 'application/json',
+          body: JSON.stringify({
+                  username: body.user.username,
+                  email: body.user.email,
+                  favorite_movies: body.favorites
+          })
+      });
+      console.log(await r.json())
+
+  };
+  generateBody = async () => {
+      await this.getUserMongoDB();
+      let user = this.state.userMongo[0]
+      let favorites = user.favorite_movies;
+      if (favorites.includes(this.props.movie._id)) {
+          favorites.splice(favorites.indexOf(this.props.movie._id), 1)
+      } else {
+          favorites.push(this.props.movie._id)
+      }
+      return {
+          user: user,
+          favorites: favorites
+      }
+  }
+
 
   render() {
     return (
@@ -15,9 +58,11 @@ export class MoviePoster extends Component {
             style={{ height: "265px" }}
             src={"https://image.tmdb.org/t/p/w200/" + this.props.movie.poster}
           />
-          <button className="absolute top-0 right-0">
+          <button
+              onClick={e => this.handleFavorite(e)}
+              className="absolute top-0 right-0 ">
             <svg
-              className="h-8 w-8 text-pink-600"
+              className="h-8 w-8 text-pink-600 hover:text-pink-300"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
