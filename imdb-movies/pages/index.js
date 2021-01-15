@@ -15,7 +15,7 @@ export default function Home({ user }) {
         body: JSON.stringify({
           username: newUser.given_name,
           email: `${newUser.nickname}@gmail.com`,
-          is_admin: false,
+          is_admin: user['http://is_admin/app_metadata'].is_admin,
           id_auth0: newUser.sub
         })
       })
@@ -29,7 +29,7 @@ export default function Home({ user }) {
         body: JSON.stringify({
           username: newUser.nickname,
           email: newUser.name,
-          is_admin: false,
+          is_admin: user['http://is_admin/app_metadata'].is_admin,
           id_auth0: newUser.sub
         })
       })
