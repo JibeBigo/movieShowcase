@@ -23,14 +23,6 @@ const EditUser = ({ user }) => {
             }).then(res => res.json())
             .then(res => {setForm({username: res.nickname, email: res.name}), setUserAuth({is_admin: res.app_metadata.is_admin})})
         }
-        // await fetch(`https://${process.env.AUTH0_DOMAIN}/api/v2/users/${userId}`, {
-        //     method: 'GET',
-        //     headers: {
-        //         "Content-Type": "application/json; charset=utf-8",
-        //         "Authorization": "Bearer " + process.env.AUTH0_BEARER_TOKEN
-        //         }
-        //     }).then(res => res.json())
-        //     .then(res => {setForm({username: res.nickname, email: res.name}), setUserAuth({is_admin: res.app_metadata.is_admin})})
     }, [])
 
     const getUserMongoDB = async () =>{
@@ -133,7 +125,9 @@ const EditUser = ({ user }) => {
 
 
     return user['http://is_admin/app_metadata'].is_admin ? (
-        <div className="container mx-auto mt-10 p-4 rounded bg-gray-900 border border-yellow-300 w-1/2 flex flex-col items-center justify-center">
+        <div>
+        { userId.startsWith('auth') ? (
+            <div className="container mx-auto mt-10 p-4 rounded bg-gray-900 border border-yellow-300 w-1/2 flex flex-col items-center justify-center">
                 <h1 className="text-yellow-300 mb-4">Edit User</h1>
                 <div>
                     <form onSubmit={onSubmit}>
@@ -187,6 +181,63 @@ const EditUser = ({ user }) => {
                 </form>
             </div>
         </div>
+        ) : (
+            <div className="container mx-auto mt-10 p-4 rounded bg-gray-900 border border-yellow-300 w-1/2 flex flex-col items-center justify-center">
+                <h1 className="text-yellow-300 mb-4">Edit User</h1>
+                <div>
+                    <form onSubmit={onSubmit}>
+                        <label className="text-yellow-300">Username</label><br/>
+                        <input
+                            className="rounded my-1 bg-gray-100 py-1 px-3 font-medium placeholder-gray-700 focus:outline-none"
+                            placeholder='Username'
+                            name='username'
+                            type='text'
+                            value={form.username}
+                            onChange={onChange}
+                            readOnly
+                        /><br/>
+
+                        <label className="text-yellow-300">Email</label><br/>
+                        <input
+                            className="rounded my-1 bg-gray-100 py-1 px-3 font-medium placeholder-gray-700 focus:outline-none"
+                            placeholder='Email Address'
+                            name='email'
+                            type='email'
+                            value={form.email}
+                            onChange={onChange}
+                            readOnly
+                        /><br/>
+
+                        <label className="text-yellow-300">
+                            Password
+                        </label><br/>
+                        <input
+                            className="rounded my-1 py-1 px-3 font-medium placeholder-gray-700 focus:outline-none"
+                            name='password'
+                            type='password'
+                            value={form.password}
+                            onChange={onChange}
+                        /><br/>
+
+                        { userAuth.is_admin == true ? (
+                            <div>
+                                <input checked id="admin"  name="admin" type="checkbox" value={userAuth.is_admin} onChange={onChangeAdmin} />
+                                <label className="text-yellow-300 ml-2">Admin</label><br/>
+                            </div>
+                        ):(
+                            <div>
+                                <input id="admin" name="admin" type="checkbox" value={userAuth.is_admin} onChange={onChangeAdmin} />
+                                <label className="text-yellow-300 ml-2">Admin</label><br/>
+                            </div>
+                        )}
+                        
+                        <button type='submit' className='rounded bg-yellow-300 text-gray-900 py-1 px-4 mt-2'>
+                            Edit
+                        </button>
+                </form>
+            </div>
+        </div>
+        )} </div>
     ) : (
         <div className="text-white ml-4"> Restricted Access </div>
     );
