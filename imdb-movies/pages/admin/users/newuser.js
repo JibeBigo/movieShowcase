@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import auth0 from '../../../utils/auth0';
 
-const NewUser = ({ user }) => {
+const NewUser = ({ userAuth }) => {
     const [form, setForm] = useState({ username: '', email: '', password: ''});
+    const [user, setUser] = useState({ is_admin: false, id_auth0: ''});
+    const [rqAuth0, setRqAuth0] = useState(false);
     const router = useRouter();
 
     const onChange = (e) => {
@@ -11,6 +13,12 @@ const NewUser = ({ user }) => {
             ...form,
             [e.target.name]: e.target.value
         })
+    }
+
+    const onChangeAdmin= (e) => {
+        setUser(prevState => ({
+            is_admin: !prevState.is_admin
+        }));
     }
 
     const onSubmit = async (e) => {
@@ -25,10 +33,28 @@ const NewUser = ({ user }) => {
                 connection: "Username-Password-Authentication",
                 nickname: form.username,
                 email: form.email,
-                password: form.password
+                password: form.password,
+                app_metadata: {
+                    is_admin: user.is_admin
+                }
             })
         }).then(res => res.json())
-        
+        .then(res => {
+            fetch('/api/users', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: form.username,
+                    email: form.email,
+                    is_admin: user.is_admin,
+                    id_auth0: res.user_id
+                })
+            })
+        })
+
         router.push('/admin/users')
     }
 
@@ -69,6 +95,18 @@ const NewUser = ({ user }) => {
                             onChange={onChange}
                         /><br/>
 
+                        { user.is_admin == true ? (
+                            <div>
+                                <input defaultChecked={true} id="admin"  name="admin" type="checkbox" value={user.is_admin} onChange={onChangeAdmin} />
+                                <label className="text-yellow-300 ml-2">Admin</label><br/>
+                            </div>
+                        ):(
+                            <div>
+                                <input id="admin" name="admin" type="checkbox" value={user.is_admin} onChange={onChangeAdmin} />
+                                <label className="text-yellow-300 ml-2">Admin</label><br/>
+                            </div>
+                        )}
+
                         <button type='submit' className='rounded bg-yellow-300 text-gray-900 py-1 px-4 mt-2'>
                             Create User
                         </button>
@@ -85,7 +123,7 @@ export async function getServerSideProps(context) {
     
     return {
         props: {
-            user: session?.user || null,
+            userAuth: session?.user || null,
         },
     };
 }
